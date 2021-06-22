@@ -21,7 +21,7 @@ namespace Attempt_1_at_using_pannel
         Rectangle[] LeftS = new Rectangle[7];
         Rectangle[] RightS = new Rectangle[7];
         Rectangle[] Object = new Rectangle[7];
-        Rectangle Player, LSide, TSide, BSide, RSide, LightBar;
+        Rectangle Player, LSide, TSide, BSide, RSide, LightBar, Stick;
         string line;
         int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift;
         double Fuel = 1.0;
@@ -45,12 +45,13 @@ namespace Attempt_1_at_using_pannel
             Object[2] = new Rectangle(0, 400, 5000, 50); // this is the ground
             Object[3] = new Rectangle(500, 300, 100, 50);
             Object[4] = new Rectangle(300, 250, 150, 30);
+            Stick = new Rectangle(375, 200, 50, 50);
             for (int O = 1; O < 7; O++)
             {
                 UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
                 RightS[O] = new Rectangle(Object[O].Right-5, Object[O].Top + 5, 5, Object[O].Height - 5);
                 LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
-                DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom-5, Object[O].Width, 10);
+                DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom-5, Object[O].Width, 5);
             }
         }
 
@@ -105,8 +106,8 @@ namespace Attempt_1_at_using_pannel
             LightBarLngth = (int)Math.Round(100 * Fuel);
             Player = new Rectangle(Px, Py, 50, 100);//Player Rectangle
             LSide = new Rectangle(Px, Py, 5, 100);//Player Rectangle
-            TSide = new Rectangle(Px+5, Py, 40, 5);//Player Rectangle
-            BSide = new Rectangle(Px+5, Py+95, 40, 5);//Player Rectangle
+            TSide = new Rectangle(Px+5, Py, 40, 15);//Player Rectangle
+            BSide = new Rectangle(Px+5, Py+90, 40, 10);//Player Rectangle
             RSide = new Rectangle(Px+45, Py, 5, 100);//Player Rectangle
             LightBar = new Rectangle(685,50 ,LightBarLngth, 20);
             Game_Pnl.Invalidate();
@@ -154,13 +155,22 @@ namespace Attempt_1_at_using_pannel
                 {
                         Ymovement = Ymovement - 1;
                 }
-                
-                if(TSide.IntersectsWith(DownS[i]))
+
+
+            }
+            for (int i = 1; i < 7; i++)
+            {
+                if (TSide.IntersectsWith(DownS[i]))
                 {
                     Ymovement = 0;
+                    Py = DownS[i].Bottom + 1;
                 }
             }
-
+             if(Player.IntersectsWith(Stick))
+            {
+                Fuel = Fuel + 0.15;
+                Stick = new Rectangle(0, 0, 0, 0);
+            }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
             Game_Pnl.Invalidate();
@@ -170,7 +180,7 @@ namespace Attempt_1_at_using_pannel
             if(Fuel >= 0)
             {
                 Fuel -= 0.02;
-                Xshift = Xshift + 2;
+                Xshift = (int)((1-Fuel)*100 + 2);
             } 
             else
             {
@@ -214,18 +224,23 @@ namespace Attempt_1_at_using_pannel
             e.Graphics.FillRectangle(Brushes.Black, Object[2]);
             e.Graphics.FillRectangle(Brushes.Black, Object[3]);
             e.Graphics.FillRectangle(Brushes.Black, Object[4]);
+            e.Graphics.FillRectangle(Brushes.Green, DownS[1]);
+            e.Graphics.FillRectangle(Brushes.Green, DownS[2]);
+            e.Graphics.FillRectangle(Brushes.Green, DownS[3]);
+            e.Graphics.FillRectangle(Brushes.Green, DownS[4]);
+            e.Graphics.FillRectangle(Brushes.BurlyWood, Stick);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
            if(Fuel <= 1 & Fuel >=0.6)
            { 
                 path.AddEllipse(Px - 120 + Xshift, Py - 75, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
             }
-           else if (Fuel <= 0.6 & Fuel >= 0.25)
+           else if (Fuel <= 0.6 & Fuel >= 0.4)
             {
                 path.AddEllipse(Px - 120 + Xshift, Py - 50, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
 
             }
-            else if (Fuel <= 0.25 & Fuel >= 0.01)
+            else if (Fuel <= 0.4 & Fuel >= 0.01)
             {
                 path.AddEllipse(Px - 110 + Xshift, Py - 30, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
             }
