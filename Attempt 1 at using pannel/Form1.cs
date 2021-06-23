@@ -21,9 +21,9 @@ namespace Attempt_1_at_using_pannel
         Rectangle[] LeftS = new Rectangle[7];
         Rectangle[] RightS = new Rectangle[7];
         Rectangle[] Object = new Rectangle[7];
-        Rectangle Player, LSide, TSide, BSide, RSide, LightBar, Stick;
+        Rectangle Player, LSide, TSide, BSide, RSide, LightBar, Stick, boundL, boundR, boundT, boundB;
         string line;
-        int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift;
+        int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY;
         double Fuel = 1.0;
         bool left, right, up, jump;
         int[,] Var = new int[3,2]
@@ -31,6 +31,12 @@ namespace Attempt_1_at_using_pannel
             {0,0},
             {1,0},
             {2,0}
+        };
+        int[,] PlayerMap = new int[3, 3]
+        {
+            {6,5,4},
+            {7,0,3},
+            {8,1,2}
         };
         Image player = Image.FromFile(Application.StartupPath + @"\Player.png");
         public Form1()
@@ -155,8 +161,6 @@ namespace Attempt_1_at_using_pannel
                 {
                         Ymovement = Ymovement - 1;
                 }
-
-
             }
             for (int i = 1; i < 7; i++)
             {
@@ -170,6 +174,10 @@ namespace Attempt_1_at_using_pannel
             {
                 Fuel = Fuel + 0.15;
                 Stick = new Rectangle(0, 0, 0, 0);
+                if (Fuel >= 1)
+                {
+                    Fuel = 1;
+                }
             }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
@@ -177,7 +185,7 @@ namespace Attempt_1_at_using_pannel
         }
         private void Torch_Tmr_Tick(object sender, EventArgs e)
         {
-            if(Fuel >= 0)
+            if(Fuel >= 0 & Fuel <= 1)
             {
                 Fuel -= 0.02;
                 Xshift = (int)((1-Fuel)*100 + 2);
