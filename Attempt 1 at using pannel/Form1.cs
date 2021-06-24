@@ -47,18 +47,13 @@ namespace Attempt_1_at_using_pannel
             Ymovement = -5;
             Xmovement = 0;
             Py = 10;
-            Object[1] = new Rectangle(0, 300, 100, 50); //this is ground
-            Object[2] = new Rectangle(0, 400, 5000, 50); // this is the ground
-            Object[3] = new Rectangle(500, 300, 100, 50);
-            Object[4] = new Rectangle(300, 250, 150, 30);
-            Stick = new Rectangle(375, 200, 50, 50);
-            for (int O = 1; O < 7; O++)
-            {
-                UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
-                RightS[O] = new Rectangle(Object[O].Right-5, Object[O].Top + 5, 5, Object[O].Height - 5);
-                LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
-                DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom-5, Object[O].Width, 5);
-            }
+            MapX = 1;
+            MapY = 1;
+            MapShift();
+            boundB = new Rectangle(0,Game_Pnl.Bottom-5,Game_Pnl.Width, 5);
+            boundL = new Rectangle(0, 0, 5, Game_Pnl.Height);
+            boundR = new Rectangle(Game_Pnl.Right-5, 0, 5, Game_Pnl.Height);
+            boundT = new Rectangle(0, Game_Pnl.Top+5, Game_Pnl.Width, 5);
         }
 
         private void Save_Btn_Click(object sender, EventArgs e)
@@ -173,15 +168,79 @@ namespace Attempt_1_at_using_pannel
              if(Player.IntersectsWith(Stick))
             {
                 Fuel = Fuel + 0.15;
-                Stick = new Rectangle(0, 0, 0, 0);
+                Stick = Rectangle.Empty;
                 if (Fuel >= 1)
                 {
                     Fuel = 1;
                 }
             }
+             if(Player.IntersectsWith(boundL) & left == true)
+            {
+                if(MapX >= 1)
+                {
+                    MapX = MapX - 1;
+                    Px = Game_Pnl.Right - 50;
+                    MapShift();
+                }
+                else
+                {
+                    MapShift();
+                }
+            }
+            if (Player.IntersectsWith(boundR) & right == true)
+            {
+                if (MapX <= 2)
+                {
+                    MapX = MapX + 1;
+                    Px = Game_Pnl.Left + 50;
+                    MapShift();
+                }
+                else
+                {
+                    MapShift();
+                }
+            }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
             Game_Pnl.Invalidate();
+        }
+        private void MapShift()
+        {
+            for (int O = 1; O<7; O++)
+            {
+                Object[O] = Rectangle.Empty;
+                UpS[O] = Rectangle.Empty;
+                DownS[O] = Rectangle.Empty;
+                RightS[O] = Rectangle.Empty;
+                LeftS[O] = Rectangle.Empty;
+            }
+            if (PlayerMap[MapY, MapX] == 0)
+            {
+                Object[1] = new Rectangle(0, 300, 100, 50); //this is ground
+                Object[2] = new Rectangle(0, 400, 5000, 50); // this is the ground
+                Object[3] = new Rectangle(500, 300, 100, 50);
+                Object[4] = new Rectangle(300, 250, 150, 30);
+                Stick = new Rectangle(375, 200, 50, 50);
+                for (int O = 1; O < 7; O++)
+                {
+                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
+                    RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
+                    LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
+                    DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
+                }
+            }
+            if (PlayerMap[MapY, MapX] == 7)
+            {
+                Object[1] = new Rectangle(0, 300, 100, 50); //this is ground
+                Object[2] = new Rectangle(0, 400, 5000, 50); // this is the ground
+                for (int O = 1; O < 7; O++)
+                {
+                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
+                    RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
+                    LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
+                    DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
+                }
+            }
         }
         private void Torch_Tmr_Tick(object sender, EventArgs e)
         {
@@ -237,6 +296,10 @@ namespace Attempt_1_at_using_pannel
             e.Graphics.FillRectangle(Brushes.Green, DownS[3]);
             e.Graphics.FillRectangle(Brushes.Green, DownS[4]);
             e.Graphics.FillRectangle(Brushes.BurlyWood, Stick);
+            e.Graphics.FillRectangle(Brushes.Blue, boundB);
+            e.Graphics.FillRectangle(Brushes.Blue, boundL);
+            e.Graphics.FillRectangle(Brushes.Blue, boundR);
+            e.Graphics.FillRectangle(Brushes.Blue, boundT);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
            if(Fuel <= 1 & Fuel >=0.6)
