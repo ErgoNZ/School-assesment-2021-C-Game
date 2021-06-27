@@ -46,14 +46,14 @@ namespace Attempt_1_at_using_pannel
             Framerate.Enabled = false;
             Ymovement = -5;
             Xmovement = 0;
-            Py = 10;
+            Py = 300;
             MapX = 1;
             MapY = 1;
             MapShift();
-            boundB = new Rectangle(0,Game_Pnl.Bottom-5,Game_Pnl.Width, 5);
+            boundB = new Rectangle(0,Game_Pnl.Bottom,Game_Pnl.Width, 5);
             boundL = new Rectangle(0, 0, 5, Game_Pnl.Height);
             boundR = new Rectangle(Game_Pnl.Right-5, 0, 5, Game_Pnl.Height);
-            boundT = new Rectangle(0, Game_Pnl.Top+5, Game_Pnl.Width, 5);
+            boundT = new Rectangle(0, Game_Pnl.Top, Game_Pnl.Width, 5);
         }
 
         private void Save_Btn_Click(object sender, EventArgs e)
@@ -154,7 +154,7 @@ namespace Attempt_1_at_using_pannel
                 }
                 else if (!BSide.IntersectsWith(UpS[i]) & Ymovement >= -15)
                 {
-                        Ymovement = Ymovement - 1;
+                    Ymovement = Ymovement - 1;
                 }
             }
             for (int i = 1; i < 7; i++)
@@ -174,6 +174,7 @@ namespace Attempt_1_at_using_pannel
                     Fuel = 1;
                 }
             }
+
              if(Player.IntersectsWith(boundL) & left == true)
             {
                 if(MapX >= 1)
@@ -187,12 +188,42 @@ namespace Attempt_1_at_using_pannel
                     MapShift();
                 }
             }
+
             if (Player.IntersectsWith(boundR) & right == true)
             {
                 if (MapX <= 2)
                 {
                     MapX = MapX + 1;
                     Px = Game_Pnl.Left + 50;
+                    MapShift();
+                }
+                else
+                {
+                    MapShift();
+                }
+            }
+
+            if (Player.IntersectsWith(boundT) & jump == false)
+            {
+                if (MapY <= 1)
+                {
+                    MapY = MapY - 1;
+                    Py = Game_Pnl.Bottom - 75;
+                    Ymovement = 40;
+                    MapShift();
+                }
+                else
+                {
+                    MapShift();
+                }
+            }
+
+            if (Player.IntersectsWith(boundB))
+            {
+                if (MapY <= 1)
+                {
+                    MapY = MapY + 1;
+                    Py = Game_Pnl.Top + 10;
                     MapShift();
                 }
                 else
@@ -216,10 +247,10 @@ namespace Attempt_1_at_using_pannel
             }
             if (PlayerMap[MapY, MapX] == 0)
             {
-                Object[1] = new Rectangle(0, 300, 100, 50); //this is ground
-                Object[2] = new Rectangle(0, 400, 5000, 50); // this is the ground
-                Object[3] = new Rectangle(500, 300, 100, 50);
-                Object[4] = new Rectangle(300, 250, 150, 30);
+                Object[1] = new Rectangle(0, 400, 5000, 50); // this is the ground
+                Object[2] = new Rectangle(500, 300, 100, 50);
+                Object[3] = new Rectangle(300, 250, 150, 30);
+                Object[4] = new Rectangle(100, 150, 150, 30);
                 Stick = new Rectangle(375, 200, 50, 50);
                 for (int O = 1; O < 7; O++)
                 {
@@ -233,6 +264,18 @@ namespace Attempt_1_at_using_pannel
             {
                 Object[1] = new Rectangle(0, 300, 100, 50); //this is ground
                 Object[2] = new Rectangle(0, 400, 5000, 50); // this is the ground
+                for (int O = 1; O < 7; O++)
+                {
+                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
+                    RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
+                    LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
+                    DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
+                }
+            }
+            if (PlayerMap[MapY, MapX] == 5)
+            {
+                Object[1] = new Rectangle(75, 300, 100, 50); //this is ground
+                Object[2] = new Rectangle(250, 400, 450, 50); // this is the ground
                 for (int O = 1; O < 7; O++)
                 {
                     UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
@@ -283,23 +326,11 @@ namespace Attempt_1_at_using_pannel
             //use the DrawImage method to draw the spaceship on the panel
             g.DrawImage(player, Player);
             //use the DrawImage method to draw the planet on the panel
-            e.Graphics.FillRectangle(Brushes.Green, TSide);
-            e.Graphics.FillRectangle(Brushes.Green, BSide);
-            e.Graphics.FillRectangle(Brushes.Green, RSide);
-            e.Graphics.FillRectangle(Brushes.Green, LSide);
             e.Graphics.FillRectangle(Brushes.Black, Object[1]);
             e.Graphics.FillRectangle(Brushes.Black, Object[2]);
             e.Graphics.FillRectangle(Brushes.Black, Object[3]);
             e.Graphics.FillRectangle(Brushes.Black, Object[4]);
-            e.Graphics.FillRectangle(Brushes.Green, DownS[1]);
-            e.Graphics.FillRectangle(Brushes.Green, DownS[2]);
-            e.Graphics.FillRectangle(Brushes.Green, DownS[3]);
-            e.Graphics.FillRectangle(Brushes.Green, DownS[4]);
             e.Graphics.FillRectangle(Brushes.BurlyWood, Stick);
-            e.Graphics.FillRectangle(Brushes.Blue, boundB);
-            e.Graphics.FillRectangle(Brushes.Blue, boundL);
-            e.Graphics.FillRectangle(Brushes.Blue, boundR);
-            e.Graphics.FillRectangle(Brushes.Blue, boundT);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
            if(Fuel <= 1 & Fuel >=0.6)
