@@ -26,11 +26,19 @@ namespace Attempt_1_at_using_pannel
         int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY;
         double Fuel = 1.0;
         bool left, right, up, jump;
-        int[,] Var = new int[3,2]
+        int[,] Var = new int[10,2]
         {
-            {0,0},
-            {1,0},
-            {2,0}
+            {0,0},//Px
+            {1,0},//Py
+            {2,0},//MapX
+            {3,0},//MapY
+            {4,0},
+            {5,0},
+            {6,0},
+            {7,0},
+            {8,0},
+            {9,0}
+
         };
         int[,] PlayerMap = new int[3, 3]
         {
@@ -60,12 +68,17 @@ namespace Attempt_1_at_using_pannel
         {
             Var[0, 1] = Px;
             Var[1, 1] = Py;
+            Var[2, 1] = MapX;
+            Var[3, 1] = MapY;
             TextWriter Save = new StreamWriter(Application.StartupPath + @"\Test.txt");
 
             //Writing text to the file.
             Save.WriteLine("Hello this line is skipped by the loading system so I just added this here and wanted to say hi!");
             Save.WriteLine(Var[0, 1]);
             Save.WriteLine(Var[1, 1]);
+            Save.WriteLine(Var[2, 1]);
+            Save.WriteLine(Var[3, 1]);
+            Save.WriteLine(Fuel);
             System.Windows.Forms.MessageBox.Show("File Saved");
 
             //Close the file.
@@ -80,13 +93,26 @@ namespace Attempt_1_at_using_pannel
             while ((line = file.ReadLine()) != null)
             {
                 Console.WriteLine(line);
-                Var[ID, 1] = Convert.ToInt32(line);
-                ID++;
+                try
+                {
+                    Var[ID, 1] = Convert.ToInt32(line);
+                    ID++;
+                }
+                catch (FormatException)
+                {
+                    if (line.Contains("."))
+                    {
+                        Fuel = Convert.ToDouble(line);
+                    }
+                }
             }
             Px = Var[0, 1];
             Py = Var[1, 1];
+            MapX = Var[2, 1];
+            MapY = Var[3, 1];
             System.Windows.Forms.MessageBox.Show("File Loaded");
             file.Close();
+            MapShift();
             // Suspend the screen.  
             // System.Windows.Forms.MessageBox.Show(counter + "");
 
