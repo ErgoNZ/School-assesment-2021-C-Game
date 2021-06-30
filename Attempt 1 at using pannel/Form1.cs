@@ -58,6 +58,7 @@ namespace Attempt_1_at_using_pannel
             MapX = 1;
             MapY = 1;
             MapShift();
+            GenLvl();
             boundB = new Rectangle(0,Game_Pnl.Bottom,Game_Pnl.Width, 5);
             boundL = new Rectangle(0, 0, 5, Game_Pnl.Height);
             boundR = new Rectangle(Game_Pnl.Right-5, 0, 5, Game_Pnl.Height);
@@ -310,6 +311,11 @@ namespace Attempt_1_at_using_pannel
                     DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
                 }
             }
+        }
+
+        private void GenLvl()
+        {
+
         }
         private void Torch_Tmr_Tick(object sender, EventArgs e)
         {
