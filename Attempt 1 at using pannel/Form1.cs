@@ -21,7 +21,7 @@ namespace Attempt_1_at_using_pannel
         Rectangle[] LeftS = new Rectangle[7];
         Rectangle[] RightS = new Rectangle[7];
         Rectangle[] Object = new Rectangle[7];
-        Rectangle Player, LSide, TSide, BSide, RSide, LightBar, Stick, boundL, boundR, boundT, boundB;
+        Rectangle Player, PlayerCenter, LSide, TSide, BSide, RSide, LightBar, Stick, boundL, boundR, boundT, boundB;
         string line;
         int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY;
         double Fuel = 1.0;
@@ -40,11 +40,13 @@ namespace Attempt_1_at_using_pannel
             {9,0}
 
         };
-        int[,] PlayerMap = new int[3, 3]
+        int[,] PlayerMap = new int[5, 5]
         {
-            {6,5,4},
-            {7,0,3},
-            {8,1,2}
+            {0,5,0,0,0},
+            {7,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0}
         };
         Image player = Image.FromFile(Application.StartupPath + @"\Player.png");
         public Form1()
@@ -133,6 +135,7 @@ namespace Attempt_1_at_using_pannel
         {
             LightBarLngth = (int)Math.Round(100 * Fuel);
             Player = new Rectangle(Px, Py, 50, 100);//Player Rectangle
+            PlayerCenter = new Rectangle(Px+12, Py+15, 26, 65);
             LSide = new Rectangle(Px, Py, 5, 100);//Player Rectangle
             TSide = new Rectangle(Px+5, Py, 40, 15);//Player Rectangle
             BSide = new Rectangle(Px+5, Py+90, 40, 10);//Player Rectangle
@@ -210,10 +213,6 @@ namespace Attempt_1_at_using_pannel
                     Px = Game_Pnl.Right - 50;
                     MapShift();
                 }
-                else
-                {
-                    MapShift();
-                }
             }
 
             if (Player.IntersectsWith(boundR) & right == true)
@@ -224,10 +223,6 @@ namespace Attempt_1_at_using_pannel
                     Px = Game_Pnl.Left + 50;
                     MapShift();
                 }
-                else
-                {
-                    MapShift();
-                }
             }
 
             if (Player.IntersectsWith(boundT) & jump == false)
@@ -236,11 +231,7 @@ namespace Attempt_1_at_using_pannel
                 {
                     MapY = MapY - 1;
                     Py = Game_Pnl.Bottom - 75;
-                    Ymovement = 40;
-                    MapShift();
-                }
-                else
-                {
+                    Ymovement = Ymovement +10;
                     MapShift();
                 }
             }
@@ -253,11 +244,15 @@ namespace Attempt_1_at_using_pannel
                     Py = Game_Pnl.Top + 10;
                     MapShift();
                 }
-                else
-                {
-                    MapShift();
-                }
             }
+           for (int i = 1; i < 7; i++)
+           {
+               if (PlayerCenter.IntersectsWith(Object[i]))
+               {
+                   Ymovement = 0;
+                   Py = DownS[i].Bottom + 1;
+               }
+           }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
             Game_Pnl.Invalidate();
@@ -315,7 +310,20 @@ namespace Attempt_1_at_using_pannel
 
         private void GenLvl()
         {
-
+            int[,] CorrectPath = new int[5, 5]
+{
+            {0,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0}
+};
+            int PathX, PathY, PathLength;
+            Random R = new System.Random();
+            PathX = R.Next(0, 4);
+            PathY = R.Next(0, 4);
+            PathLength = R.Next(5,7);
+            CorrectPath[PathY, PathX] = 1;
         }
         private void Torch_Tmr_Tick(object sender, EventArgs e)
         {
@@ -363,6 +371,7 @@ namespace Attempt_1_at_using_pannel
             e.Graphics.FillRectangle(Brushes.Black, Object[3]);
             e.Graphics.FillRectangle(Brushes.Black, Object[4]);
             e.Graphics.FillRectangle(Brushes.BurlyWood, Stick);
+            e.Graphics.FillRectangle(Brushes.Green, PlayerCenter);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
            if(Fuel <= 1 & Fuel >=0.6)
