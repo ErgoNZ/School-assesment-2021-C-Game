@@ -48,7 +48,6 @@ namespace Attempt_1_at_using_pannel
             {0,0,0,0,0},
             {0,0,0,0,0}
         };
-        Image player = Image.FromFile(Application.StartupPath + @"\Player.png");
         public Form1()
         {
             InitializeComponent();
@@ -217,7 +216,7 @@ namespace Attempt_1_at_using_pannel
 
             if (Player.IntersectsWith(boundR) & right == true)
             {
-                if (MapX <= 2)
+                if (MapX <= 3)
                 {
                     MapX = MapX + 1;
                     Px = Game_Pnl.Left + 50;
@@ -227,7 +226,7 @@ namespace Attempt_1_at_using_pannel
 
             if (Player.IntersectsWith(boundT) & jump == false)
             {
-                if (MapY <= 1)
+                if (MapY <= 3)
                 {
                     MapY = MapY - 1;
                     Py = Game_Pnl.Bottom - 75;
@@ -247,10 +246,9 @@ namespace Attempt_1_at_using_pannel
             }
            for (int i = 1; i < 7; i++)
            {
-               if (PlayerCenter.IntersectsWith(Object[i]))
+               if (PlayerCenter.IntersectsWith(UpS[i]))
                {
-                   Ymovement = 0;
-                   Py = DownS[i].Bottom + 1;
+                   Ymovement = -10;
                }
            }
             Px = Px-Xmovement;
@@ -364,8 +362,8 @@ namespace Attempt_1_at_using_pannel
         {
             g = e.Graphics;
             //use the DrawImage method to draw the spaceship on the panel
-            g.DrawImage(player, Player);
             //use the DrawImage method to draw the planet on the panel
+            e.Graphics.FillRectangle(Brushes.Black, Player);
             e.Graphics.FillRectangle(Brushes.Black, Object[1]);
             e.Graphics.FillRectangle(Brushes.Black, Object[2]);
             e.Graphics.FillRectangle(Brushes.Black, Object[3]);
