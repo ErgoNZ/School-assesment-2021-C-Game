@@ -316,12 +316,66 @@ namespace Attempt_1_at_using_pannel
             {0,0,0,0,0},
             {0,0,0,0,0}
 };
-            int PathX, PathY, PathLength;
+            int PathX, PathY, PathLength,CurrentLength;
             Random R = new System.Random();
             PathX = R.Next(0, 4);
             PathY = R.Next(0, 4);
             PathLength = R.Next(5,7);
+            CurrentLength = 0;
             CorrectPath[PathY, PathX] = 1;
+            while (CurrentLength < PathLength)
+            {
+                if (PathX == 0 & PathY == 4) //Bottom Left Corner
+                {
+                    if (R.Next(1, 3) == 1)
+                    {
+                        PathY = PathY - 1;
+                        label1.Text = PathY + "," + PathX;
+                    }
+                    else
+                    {
+                        PathX = PathX + 1;
+                        label1.Text = PathY + "," + PathX;
+                    }                  
+                }
+
+                if (PathX == 0 & PathY == 0)//Top Left Corner
+                {
+                    if (R.Next(1, 3) == 1)
+                    {
+                        PathY = PathY + 1;
+                    }
+                    else
+                    {
+                        PathX = PathX + 1;
+                    }
+                }
+
+                if (PathX == 4 & PathY == 0) // Top Right Corner
+                {
+                    if (R.Next(1, 3) == 1)
+                    {
+                        PathY = PathY + 1;
+                    }
+                    else
+                    {
+                        PathX = PathX - 1;
+                    }
+                }
+
+                if (PathX == 4 & PathY == 4) //Bottom Right Corner
+                {
+                    if (R.Next(1, 3) == 1)
+                    {
+                        PathY = PathY - 1;
+                    }
+                    else
+                    {
+                        PathX = PathX - 1;
+                    }
+                }
+                CurrentLength++;
+            }
         }
         private void Torch_Tmr_Tick(object sender, EventArgs e)
         {
