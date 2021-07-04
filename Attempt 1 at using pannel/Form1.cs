@@ -373,15 +373,7 @@ namespace Attempt_1_at_using_pannel
                     CorrectPath[PathY, PathX] = 1;
                     CurrentLength++;
                 }
-                //write and write line dont work for some reason...
-                for (int i = 0; i < CorrectPath.GetLength(0); i++)
-                {
-                    for (int j = 0; j < CorrectPath.GetLength(1); j++)
-                    {
-                        Console.Write(CorrectPath[i, j] + "\t");
-                    }
-                    Console.WriteLine();
-                }
+                //write and write line dont work for some reason...             
             }
         }
         private void Torch_Tmr_Tick(object sender, EventArgs e)
