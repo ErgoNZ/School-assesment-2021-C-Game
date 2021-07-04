@@ -183,7 +183,7 @@ namespace Attempt_1_at_using_pannel
                 }
                 else if (!BSide.IntersectsWith(UpS[i]) & Ymovement >= -15)
                 {
-                    Ymovement = Ymovement - 1;
+                    Ymovement--;
                 }
             }
             for (int i = 1; i < 7; i++)
@@ -208,7 +208,7 @@ namespace Attempt_1_at_using_pannel
             {
                 if(MapX >= 1)
                 {
-                    MapX = MapX - 1;
+                    MapX--;
                     Px = Game_Pnl.Right - 50;
                     MapShift();
                 }
@@ -218,7 +218,7 @@ namespace Attempt_1_at_using_pannel
             {
                 if (MapX <= 3)
                 {
-                    MapX = MapX + 1;
+                    MapX++;
                     Px = Game_Pnl.Left + 50;
                     MapShift();
                 }
@@ -228,7 +228,7 @@ namespace Attempt_1_at_using_pannel
             {
                 if (MapY <= 3)
                 {
-                    MapY = MapY - 1;
+                    MapY--;
                     Py = Game_Pnl.Bottom - 75;
                     Ymovement = Ymovement +10;
                     MapShift();
@@ -239,7 +239,7 @@ namespace Attempt_1_at_using_pannel
             {
                 if (MapY <= 1)
                 {
-                    MapY = MapY + 1;
+                    MapY++;
                     Py = Game_Pnl.Top + 10;
                     MapShift();
                 }
@@ -316,65 +316,72 @@ namespace Attempt_1_at_using_pannel
             {0,0,0,0,0},
             {0,0,0,0,0}
 };
-            int PathX, PathY, PathLength,CurrentLength;
+            int PathX, PathY, OrigPathX, OrigPathY, PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir;
             Random R = new System.Random();
             PathX = R.Next(0, 4);
             PathY = R.Next(0, 4);
+            OrigPathX = PathX;
+            OrigPathY = PathY;
             PathLength = R.Next(5,7);
             CurrentLength = 0;
+            Yarrmin = 0;
+            Yarrmax = 4;
+            Xarrmin = 0;
+            Xarrmax = 4;
             CorrectPath[PathY, PathX] = 1;
             while (CurrentLength < PathLength)
             {
-                if (PathX == 0 & PathY == 4) //Bottom Left Corner
+                //1 means up
+                //2 means right
+                //3 means down
+                //4 means left
+             Nextdir = R.Next(1, 4);
+                if(Nextdir == 1)
                 {
-                    if (R.Next(1, 3) == 1)
+                    PathY--;
+                    if (PathY < Yarrmin)
                     {
-                        PathY = PathY - 1;
-                        label1.Text = PathY + "," + PathX;
-                    }
-                    else
-                    {
-                        PathX = PathX + 1;
-                        label1.Text = PathY + "," + PathX;
-                    }                  
+                        PathY++;
+                    }           
                 }
-
-                if (PathX == 0 & PathY == 0)//Top Left Corner
+                else if (Nextdir == 2)
                 {
-                    if (R.Next(1, 3) == 1)
+                    PathX++;
+                    if (PathX > Xarrmax)
                     {
-                        PathY = PathY + 1;
-                    }
-                    else
-                    {
-                        PathX = PathX + 1;
+                        PathX--;
                     }
                 }
-
-                if (PathX == 4 & PathY == 0) // Top Right Corner
+                else if (Nextdir == 3)
                 {
-                    if (R.Next(1, 3) == 1)
+                    PathY++;
+                    if (PathY > Yarrmax)
                     {
-                        PathY = PathY + 1;
-                    }
-                    else
-                    {
-                        PathX = PathX - 1;
+                        PathY--;
                     }
                 }
-
-                if (PathX == 4 & PathY == 4) //Bottom Right Corner
+                else if (Nextdir == 4)
                 {
-                    if (R.Next(1, 3) == 1)
+                    PathX--;
+                    if (PathX < Xarrmin)
                     {
-                        PathY = PathY - 1;
-                    }
-                    else
-                    {
-                        PathX = PathX - 1;
+                        PathX++;
                     }
                 }
-                CurrentLength++;
+                if (CorrectPath[PathY, PathX] == 0)
+                {
+                    CorrectPath[PathY, PathX] = 1;
+                    CurrentLength++;
+                }
+                //write and write line dont work for some reason...
+                for (int i = 0; i < CorrectPath.GetLength(0); i++)
+                {
+                    for (int j = 0; j < CorrectPath.GetLength(1); j++)
+                    {
+                        Console.Write(CorrectPath[i, j] + "\t");
+                    }
+                    Console.WriteLine();
+                }
             }
         }
         private void Torch_Tmr_Tick(object sender, EventArgs e)
