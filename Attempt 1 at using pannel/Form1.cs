@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Data;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -42,8 +43,8 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] PlayerMap = new int[5, 5]
         {
-            {0,5,0,0,0},
-            {7,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0}
@@ -208,7 +209,7 @@ namespace Attempt_1_at_using_pannel
             {
                 if(MapX >= 1)
                 {
-                    MapX--;
+                    MapX = MapX - 1;
                     Px = Game_Pnl.Right - 50;
                     MapShift();
                 }
@@ -218,7 +219,7 @@ namespace Attempt_1_at_using_pannel
             {
                 if (MapX <= 3)
                 {
-                    MapX++;
+                    MapX = MapX + 1;
                     Px = Game_Pnl.Left + 50;
                     MapShift();
                 }
@@ -226,9 +227,9 @@ namespace Attempt_1_at_using_pannel
 
             if (Player.IntersectsWith(boundT) & jump == false)
             {
-                if (MapY <= 3)
+                if (MapY >= 1)
                 {
-                    MapY--;
+                    MapY = MapY -1;
                     Py = Game_Pnl.Bottom - 75;
                     Ymovement = Ymovement +10;
                     MapShift();
@@ -237,9 +238,9 @@ namespace Attempt_1_at_using_pannel
 
             if (Player.IntersectsWith(boundB))
             {
-                if (MapY <= 1)
+                if (MapY <= 3)
                 {
-                    MapY++;
+                    MapY = MapY + 1;
                     Py = Game_Pnl.Top + 10;
                     MapShift();
                 }
@@ -280,7 +281,7 @@ namespace Attempt_1_at_using_pannel
                     DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
                 }
             }
-            if (PlayerMap[MapY, MapX] == 7)
+            if (PlayerMap[MapY, MapX] == 1)
             {
                 Object[1] = new Rectangle(0, 300, 100, 50); //this is ground
                 Object[2] = new Rectangle(0, 400, 5000, 50); // this is the ground
@@ -292,7 +293,19 @@ namespace Attempt_1_at_using_pannel
                     DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
                 }
             }
-            if (PlayerMap[MapY, MapX] == 5)
+            if (PlayerMap[MapY, MapX] == 2)
+            {
+                Object[1] = new Rectangle(75, 300, 100, 50); //this is ground
+                Object[2] = new Rectangle(250, 400, 450, 50); // this is the ground
+                for (int O = 1; O < 7; O++)
+                {
+                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
+                    RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
+                    LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
+                    DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
+                }
+            }
+            if (PlayerMap[MapY, MapX] == 3)
             {
                 Object[1] = new Rectangle(75, 300, 100, 50); //this is ground
                 Object[2] = new Rectangle(250, 400, 450, 50); // this is the ground
@@ -306,7 +319,7 @@ namespace Attempt_1_at_using_pannel
             }
         }
 
-        private void GenLvl()
+        public void GenLvl()
         {
             int[,] CorrectPath = new int[5, 5]
 {
@@ -322,7 +335,7 @@ namespace Attempt_1_at_using_pannel
             PathY = R.Next(0, 4);
             OrigPathX = PathX;
             OrigPathY = PathY;
-            PathLength = R.Next(5,7);
+            PathLength = R.Next(5,9);
             CurrentLength = 0;
             Yarrmin = 0;
             Yarrmax = 4;
@@ -335,8 +348,8 @@ namespace Attempt_1_at_using_pannel
                 //2 means right
                 //3 means down
                 //4 means left
-             Nextdir = R.Next(1, 4);
-                if(Nextdir == 1)
+             Nextdir = R.Next(1, 5);
+                if (Nextdir == 1)
                 {
                     PathY--;
                     if (PathY < Yarrmin)
@@ -372,8 +385,16 @@ namespace Attempt_1_at_using_pannel
                 {
                     CorrectPath[PathY, PathX] = 1;
                     CurrentLength++;
+                    if(CorrectPath[PathY+1, PathX] == 1)
+                    {
+
+                    }
                 }
-                //write and write line dont work for some reason...             
+                //write and write line dont work for some reason...   so debug is used here instead          
+                Debug.AutoFlush = true;
+                Debug.Indent();
+                Debug.WriteLine(PathY, PathX +"");
+                Debug.Unindent();
             }
         }
         private void Torch_Tmr_Tick(object sender, EventArgs e)
