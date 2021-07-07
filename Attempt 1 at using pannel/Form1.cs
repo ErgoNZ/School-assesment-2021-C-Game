@@ -24,7 +24,7 @@ namespace Attempt_1_at_using_pannel
         Rectangle[] Object = new Rectangle[7];
         Rectangle Player, PlayerCenter, LSide, TSide, BSide, RSide, LightBar, Stick, boundL, boundR, boundT, boundB;
         string line;
-        int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY;
+        int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY, PathX, PathY;
         double Fuel = 1.0;
         bool left, right, up, jump;
         int[,] Var = new int[10,2]
@@ -57,10 +57,8 @@ namespace Attempt_1_at_using_pannel
             Ymovement = -5;
             Xmovement = 0;
             Py = 300;
-            MapX = 1;
-            MapY = 1;
-            MapShift();
             GenLvl();
+            MapShift();
             boundB = new Rectangle(0,Game_Pnl.Bottom,Game_Pnl.Width, 5);
             boundL = new Rectangle(0, 0, 5, Game_Pnl.Height);
             boundR = new Rectangle(Game_Pnl.Right-5, 0, 5, Game_Pnl.Height);
@@ -329,12 +327,14 @@ namespace Attempt_1_at_using_pannel
             {0,0,0,0,0},
             {0,0,0,0,0}
 };
-            int PathX, PathY, OrigPathX, OrigPathY, PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir;
+            int OrigPathX, OrigPathY, PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir;
+            bool Left,Up,Down,Right;
             Random R = new System.Random();
             PathX = R.Next(0, 4);
             PathY = R.Next(0, 4);
-            OrigPathX = PathX;
-            OrigPathY = PathY;
+            MapX = PathX;
+            MapY = PathY;
+            label1.Text = MapX +","+ MapY;
             PathLength = R.Next(5,9);
             CurrentLength = 0;
             Yarrmin = 0;
@@ -383,11 +383,56 @@ namespace Attempt_1_at_using_pannel
                 }
                 if (CorrectPath[PathY, PathX] == 0)
                 {
+                    Down = false;
+                    Up = false;
+                    Left = false;
+                    Right = false;
                     CorrectPath[PathY, PathX] = 1;
+                    PlayerMap[PathY, PathX] = 3;                   
                     CurrentLength++;
-                    if(CorrectPath[PathY+1, PathX] == 1)
+                    try
                     {
-
+                        if (CorrectPath[PathY + 1, PathX] == 1)
+                        {
+                            Down = true;
+                        }
+                    }
+                     catch (Exception)
+                    {
+                        Down = false;
+                    }
+                    try
+                    {
+                        if (CorrectPath[PathY - 1, PathX] == 1)
+                        {
+                            Up = true;
+                        }
+                    }
+                     catch (Exception)
+                    {
+                        Up = false;
+                    }
+                    try
+                    {
+                        if (CorrectPath[PathY, PathX + 1] == 1)
+                        {
+                            Right = true;
+                        }
+                    }
+                     catch (Exception)
+                    {
+                        Right = false;
+                    }
+                    try
+                    {
+                        if (CorrectPath[PathY, PathX - 1] == 1)
+                        {
+                            Left = true;
+                        }
+                    }
+                     catch (Exception)
+                    {
+                        Left = false;
                     }
                 }
                 //write and write line dont work for some reason...   so debug is used here instead          
