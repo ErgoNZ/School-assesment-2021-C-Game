@@ -208,7 +208,7 @@ namespace Attempt_1_at_using_pannel
                 if(MapX >= 1)
                 {
                     MapX = MapX - 1;
-                    Px = Game_Pnl.Right - 50;
+                    Px = Game_Pnl.Right;
                     MapShift();
                 }
             }
@@ -218,7 +218,7 @@ namespace Attempt_1_at_using_pannel
                 if (MapX <= 3)
                 {
                     MapX = MapX + 1;
-                    Px = Game_Pnl.Left + 50;
+                    Px = Game_Pnl.Left - 10;
                     MapShift();
                 }
             }
@@ -334,6 +334,7 @@ namespace Attempt_1_at_using_pannel
             PathY = R.Next(0, 4);
             MapX = PathX;
             MapY = PathY;
+            MapShift();
             label1.Text = MapX +","+ MapY;
             PathLength = R.Next(5,9);
             CurrentLength = 0;
@@ -342,6 +343,7 @@ namespace Attempt_1_at_using_pannel
             Xarrmin = 0;
             Xarrmax = 4;
             CorrectPath[PathY, PathX] = 1;
+            PlayerMap[PathY, PathX] = 3;
             while (CurrentLength < PathLength)
             {
                 //1 means up
