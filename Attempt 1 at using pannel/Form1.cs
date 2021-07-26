@@ -133,11 +133,11 @@ namespace Attempt_1_at_using_pannel
         {
             LightBarLngth = (int)Math.Round(100 * Fuel);
             Player = new Rectangle(Px, Py, 35, 70);//Player Rectangle
-            PlayerCenter = new Rectangle(Px+6, Py+7, 13, 35);
+            PlayerCenter = new Rectangle(Px+6, Py+7, 22, 40);
             LSide = new Rectangle(Px, Py, 5, 70);//Player Rectangle
-            TSide = new Rectangle(Px+5, Py-5, 25, 5);//Player Rectangle
+            TSide = new Rectangle(Px+5, Py, 25, 10);//Player Rectangle
             BSide = new Rectangle(Px+5, Py+60, 25, 10);//Player Rectangle
-            RSide = new Rectangle(Px+20, Py, 5, 70);//Player Rectangle
+            RSide = new Rectangle(Px+30, Py, 5, 70);//Player Rectangle
             LightBar = new Rectangle(685,50 ,LightBarLngth, 20);
             Game_Pnl.Invalidate();
             for (int i = 1; i < 7; i++)
@@ -163,7 +163,7 @@ namespace Attempt_1_at_using_pannel
                 }
                 else if (right == true & RSide.IntersectsWith(LeftS[i]))
                 {
-                    Px = LeftS[i].Left- 26;
+                    Px = LeftS[i].Left- 38;
                 }
             }
             for (int i = 1; i < 7; i++)
@@ -171,16 +171,16 @@ namespace Attempt_1_at_using_pannel
                 if (BSide.IntersectsWith(UpS[i]))
                 {
                     Ymovement = 0;
-                    Py =UpS[i].Top - 53;
+                    Py = UpS[i].Top - 71;
                     jump = true;
                 }
 
                 if (up == true & jump == true)
                 {
-                    Ymovement = 35;
+                    Ymovement = 38;
                     jump = false;
                 }
-                else if (!BSide.IntersectsWith(UpS[i]) & Ymovement >= -10)
+                else if (!BSide.IntersectsWith(UpS[i]) & Ymovement >= -15)
                 {
                     Ymovement--;
                 }
@@ -190,7 +190,7 @@ namespace Attempt_1_at_using_pannel
                 if (TSide.IntersectsWith(DownS[i]))
                 {
                     Ymovement = 0;
-                    Py = DownS[i].Bottom + 5;
+                    Py = DownS[i].Bottom + 7;
                 }
             }
              if(Player.IntersectsWith(Stick))
@@ -247,9 +247,13 @@ namespace Attempt_1_at_using_pannel
            {
                if (PlayerCenter.IntersectsWith(UpS[i]))
                {
-                   Ymovement = -10;
+                    Py = DownS[i].Bottom;
                }
-           }
+                else if (PlayerCenter.IntersectsWith(DownS[i]))
+                {
+                    Py = DownS[i].Bottom;
+                }
+            }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
             Game_Pnl.Invalidate();
@@ -283,6 +287,7 @@ namespace Attempt_1_at_using_pannel
             {
                 Object[1] = new Rectangle(0, 300, 100, 50); //this is ground
                 Object[2] = new Rectangle(0, 400, 5000, 50); // this is the ground
+                Object[3] = new Rectangle(300, 250, 150, 30);
                 for (int O = 1; O < 7; O++)
                 {
                     UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
@@ -293,7 +298,6 @@ namespace Attempt_1_at_using_pannel
             }
             if (PlayerMap[MapY, MapX] == 2)
             {
-                Object[1] = new Rectangle(75, 300, 100, 50); //this is ground
                 Object[2] = new Rectangle(250, 400, 450, 50); // this is the ground
                 for (int O = 1; O < 7; O++)
                 {
@@ -330,8 +334,8 @@ namespace Attempt_1_at_using_pannel
             int OrigPathX, OrigPathY, PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir;
             bool Left,Up,Down,Right;
             Random R = new System.Random();
-            PathX = R.Next(0, 4);
-            PathY = R.Next(0, 4);
+            PathX = R.Next(0, 5);
+            PathY = R.Next(0, 5);
             MapX = PathX;
             MapY = PathY;
             MapShift();
@@ -350,7 +354,7 @@ namespace Attempt_1_at_using_pannel
                 //2 means right
                 //3 means down
                 //4 means left
-             Nextdir = R.Next(0, 5);
+             Nextdir = R.Next(1, 5);
                 if (Nextdir == 1)
                 {
                     PathY--;
@@ -439,7 +443,7 @@ namespace Attempt_1_at_using_pannel
 
                     if(Left == true)//Levels 1-4
                     {
-
+                        PlayerMap[PathY, PathX] = R.Next(0,4);
                     }
                 }
                 //write and write line dont work for some reason...   so debug is used here instead          
@@ -495,11 +499,11 @@ namespace Attempt_1_at_using_pannel
             e.Graphics.FillRectangle(Brushes.Black, Object[3]);
             e.Graphics.FillRectangle(Brushes.Black, Object[4]);
             e.Graphics.FillRectangle(Brushes.BurlyWood, Stick);
-            e.Graphics.FillRectangle(Brushes.Green, PlayerCenter);
-            //e.Graphics.FillRectangle(Brushes.Green, TSide);
-            e.Graphics.FillRectangle(Brushes.Green, BSide);
-            //e.Graphics.FillRectangle(Brushes.Green, RSide);
-            //e.Graphics.FillRectangle(Brushes.Green, LSide);
+            //e.Graphics.FillRectangle(Brushes.Green, PlayerCenter);
+            e.Graphics.FillRectangle(Brushes.Green, TSide);
+            //e.Graphics.FillRectangle(Brushes.Green, BSide);
+            e.Graphics.FillRectangle(Brushes.Green, RSide);
+            e.Graphics.FillRectangle(Brushes.Green, LSide);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
            if(Fuel <= 1 & Fuel >=0.6)
