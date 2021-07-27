@@ -243,17 +243,17 @@ namespace Attempt_1_at_using_pannel
                     MapShift();
                 }
             }
-           for (int i = 1; i < 7; i++)
-           {
-               if (PlayerCenter.IntersectsWith(UpS[i]))
-               {
-                    Py = DownS[i].Bottom;
-               }
-                else if (PlayerCenter.IntersectsWith(DownS[i]))
-                {
-                    Py = DownS[i].Bottom;
-                }
-            }
+          //for (int i = 1; i < 7; i++)
+          //{
+          //    if (PlayerCenter.IntersectsWith(UpS[i]))
+          //    {
+          //         Py = DownS[i].Bottom;
+          //    }
+          //     else if (PlayerCenter.IntersectsWith(DownS[i]))
+          //     {
+          //         Py = DownS[i].Bottom;
+          //     }
+          // }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
             Game_Pnl.Invalidate();
@@ -441,9 +441,84 @@ namespace Attempt_1_at_using_pannel
                         Left = false;
                     }
 
-                    if(Left == true)//Levels 1-4
+                    //RANDOM GENERATION CHECK FOR PICKING MAP TITLES
+                    //TOTAL MAP TILES IF CHECKING FOR EACH POSSIBLE COMBINATION: 60
+                    //SINGLE DIRECTION CHECK
+                    if(Left == true)//Map tile 1-4
                     {
                         PlayerMap[PathY, PathX] = R.Next(0,4);
+                    }
+
+                    if (Right == true)//Map tile 5-8
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Down == true)//Map tile 9-12
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Up == true)//Map tile 13-16
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    //DUAL DIRECTION CHECK
+                    if (Left == true && Right == true)//Map tile  17-20
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Left == true && Up == true)//Map tile 21-24
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Left == true && Down == true)//Map tile 25-28
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Right == true && Up == true)//Map tile 29-32
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Right == true && Down == true)//Map tile 33-36
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Up == true && Down == true)//Map tile 37-40
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+                    //TRIPLE DIRECTION CHECK
+                    if (Left == true && Right == true && Up == true)//Map tile 41-44
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Left == true && Right == true && Down == true)//Map tile 45-48
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Left == true && Down == true && Up == true)//Map tile 49-52
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    if (Right == true && Down == true && Up == true)//Map tile 53-56
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
+                    }
+
+                    //QUAD DIRECTION CHECK
+                    if (Left == true && Right == true && Up == true && Down == true)//Map tile 57-60
+                    {
+                        PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
                 }
                 //write and write line dont work for some reason...   so debug is used here instead          
