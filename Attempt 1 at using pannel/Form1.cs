@@ -133,7 +133,7 @@ namespace Attempt_1_at_using_pannel
         {
             LightBarLngth = (int)Math.Round(100 * Fuel);
             Player = new Rectangle(Px, Py, 35, 70);//Player Rectangle
-            PlayerCenter = new Rectangle(Px+6, Py+7, 22, 40);
+            PlayerCenter = new Rectangle(Px+6, Py+10, 22, 40);
             LSide = new Rectangle(Px, Py, 5, 70);//Player Rectangle
             TSide = new Rectangle(Px+5, Py, 25, 10);//Player Rectangle
             BSide = new Rectangle(Px+5, Py+60, 25, 10);//Player Rectangle
@@ -229,7 +229,7 @@ namespace Attempt_1_at_using_pannel
                 {
                     MapY = MapY -1;
                     Py = Game_Pnl.Bottom - 75;
-                    Ymovement = Ymovement +10;
+                    Ymovement = Ymovement + 5;
                     MapShift();
                 }
             }
@@ -243,17 +243,16 @@ namespace Attempt_1_at_using_pannel
                     MapShift();
                 }
             }
-          //for (int i = 1; i < 7; i++)
-          //{
-          //    if (PlayerCenter.IntersectsWith(UpS[i]))
-          //    {
-          //         Py = DownS[i].Bottom;
-          //    }
-          //     else if (PlayerCenter.IntersectsWith(DownS[i]))
-          //     {
-          //         Py = DownS[i].Bottom;
-          //     }
-          // }
+            for (int i = 1; i < 7; i++)
+            {
+                if (PlayerCenter.IntersectsWith(UpS[i]))
+                {
+                    MapY = MapY + 1;
+                    Py = Game_Pnl.Top + 10;
+                    MapShift();
+                }
+
+            }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
             Game_Pnl.Invalidate();
@@ -444,73 +443,73 @@ namespace Attempt_1_at_using_pannel
                     //RANDOM GENERATION CHECK FOR PICKING MAP TITLES
                     //TOTAL MAP TILES IF CHECKING FOR EACH POSSIBLE COMBINATION: 60
                     //SINGLE DIRECTION CHECK
-                    if(Left == true)//Map tile 1-4
+                    if(Left == true && Right == false && Up == false && Down == false)//Map tile 1-4
                     {
                         PlayerMap[PathY, PathX] = R.Next(0,4);
                     }
 
-                    if (Right == true)//Map tile 5-8
+                    if (Right == true && Left == false && Up == false && Down == false)//Map tile 5-8
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Down == true)//Map tile 9-12
+                    if (Down == true && Right == false && Up == false && Left == false)//Map tile 9-12
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Up == true)//Map tile 13-16
+                    if (Up == true && Right == false && Left == false && Down == false)//Map tile 13-16
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
                     //DUAL DIRECTION CHECK
-                    if (Left == true && Right == true)//Map tile  17-20
+                    if (Left == true && Right == true && Up == false && Down == false)//Map tile  17-20
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Left == true && Up == true)//Map tile 21-24
+                    if (Left == true && Up == true && Up == false && Down == false)//Map tile 21-24
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Left == true && Down == true)//Map tile 25-28
+                    if (Left == true && Down == true && Up == false && Right == false)//Map tile 25-28
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Right == true && Up == true)//Map tile 29-32
+                    if (Right == true && Up == true && Left == false && Down == false)//Map tile 29-32
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Right == true && Down == true)//Map tile 33-36
+                    if (Right == true && Down == true && Up == false && Left == false)//Map tile 33-36
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Up == true && Down == true)//Map tile 37-40
+                    if (Up == true && Down == true && Left == false && Right == false)//Map tile 37-40
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
                     //TRIPLE DIRECTION CHECK
-                    if (Left == true && Right == true && Up == true)//Map tile 41-44
+                    if (Left == true && Right == true && Up == true && Down == false)//Map tile 41-44
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Left == true && Right == true && Down == true)//Map tile 45-48
+                    if (Left == true && Right == true && Down == true && Up == false)//Map tile 45-48
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Left == true && Down == true && Up == true)//Map tile 49-52
+                    if (Left == true && Down == true && Up == true && Right == false)//Map tile 49-52
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
 
-                    if (Right == true && Down == true && Up == true)//Map tile 53-56
+                    if (Right == true && Down == true && Up == true && Left == false)//Map tile 53-56
                     {
                         PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
@@ -574,11 +573,6 @@ namespace Attempt_1_at_using_pannel
             e.Graphics.FillRectangle(Brushes.Black, Object[3]);
             e.Graphics.FillRectangle(Brushes.Black, Object[4]);
             e.Graphics.FillRectangle(Brushes.BurlyWood, Stick);
-            //e.Graphics.FillRectangle(Brushes.Green, PlayerCenter);
-            e.Graphics.FillRectangle(Brushes.Green, TSide);
-            //e.Graphics.FillRectangle(Brushes.Green, BSide);
-            e.Graphics.FillRectangle(Brushes.Green, RSide);
-            e.Graphics.FillRectangle(Brushes.Green, LSide);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
            if(Fuel <= 1 & Fuel >=0.6)
