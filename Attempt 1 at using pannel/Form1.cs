@@ -328,12 +328,14 @@ namespace Attempt_1_at_using_pannel
             {0,0,0,0,0},
             {0,0,0,0,0}
 };
-            int PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir;
+            int PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir, OriginX, OriginY;
             bool Left,Up,Down,Right;
             string PathRepeat = "";
             Random R = new System.Random();
             PathX = R.Next(0, 5);
             PathY = R.Next(0, 5);
+            OriginX = PathX;
+            OriginY = PathY;
             MapX = PathX;
             MapY = PathY;
             MapShift();
@@ -348,10 +350,10 @@ namespace Attempt_1_at_using_pannel
             PlayerMap[PathY, PathX] = 3;
             while (CurrentLength < PathLength)
             {
-                //1 means up
-                //2 means right
-                //3 means down
-                //4 means left
+                //1 means up PathY--
+                //2 means right PathX++
+                //3 means down PathY++
+                //4 means left PathX--
              Nextdir = R.Next(1, 5);
                 if (Nextdir == 1)
                 {
@@ -362,7 +364,7 @@ namespace Attempt_1_at_using_pannel
                     }      
                     else if (CorrectPath[PathY, PathX] == 0)
                     {
-                        PathRepeat = PathRepeat + "Up";
+                        PathRepeat = PathRepeat + "U";
                     }
                 }
                 else if (Nextdir == 2)
@@ -374,7 +376,7 @@ namespace Attempt_1_at_using_pannel
                     }
                     else if (CorrectPath[PathY, PathX] == 0)
                     {
-                        PathRepeat = PathRepeat + "Right";
+                        PathRepeat = PathRepeat + "R";
                     }
                 }
                 else if (Nextdir == 3)
@@ -386,7 +388,7 @@ namespace Attempt_1_at_using_pannel
                     }
                     else if (CorrectPath[PathY, PathX] == 0)
                     {
-                        PathRepeat = PathRepeat + "Down";
+                        PathRepeat = PathRepeat + "D";
                     }
                 }
                 else if (Nextdir == 4)
@@ -398,7 +400,7 @@ namespace Attempt_1_at_using_pannel
                     }
                     else if (CorrectPath[PathY, PathX] == 0)
                     {
-                        PathRepeat = PathRepeat + "Left";
+                        PathRepeat = PathRepeat + "L";
                     }
                 }
                 if (CorrectPath[PathY, PathX] == 0)
@@ -407,137 +409,165 @@ namespace Attempt_1_at_using_pannel
                     Up = false;
                     Left = false;
                     Right = false;
-                    CorrectPath[PathY, PathX] = 1;                  
+                    CorrectPath[PathY, PathX] = 1;
                     CurrentLength++;
-                    try
+                    if (CurrentLength == PathLength)
                     {
-                        if (CorrectPath[PathY + 1, PathX] == 1)
+                        PathX = OriginX;
+                        PathY = OriginY;
+                        for (int i = 1; i <= CurrentLength; i++)
                         {
-                            Down = true;
+                            try
+                            {
+                                if (CorrectPath[PathY + 1, PathX] == 1)
+                                {
+                                    Down = true;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                Down = false;
+                            }
+                            try
+                            {
+                                if (CorrectPath[PathY - 1, PathX] == 1)
+                                {
+                                    Up = true;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                Up = false;
+                            }
+                            try
+                            {
+                                if (CorrectPath[PathY, PathX + 1] == 1)
+                                {
+                                    Right = true;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                Right = false;
+                            }
+                            try
+                            {
+                                if (CorrectPath[PathY, PathX - 1] == 1)
+                                {
+                                    Left = true;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                Left = false;
+                            }
+
+                            //RANDOM GENERATION CHECK FOR PICKING MAP TITLES
+                            //TOTAL MAP TILES IF CHECKING FOR EACH POSSIBLE COMBINATION: 60
+                            //SINGLE DIRECTION CHECK
+                            if (Left == true && Right == false && Up == false && Down == false)//Map tile 1-4
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Right == true && Left == false && Up == false && Down == false)//Map tile 5-8
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Down == true && Right == false && Up == false && Left == false)//Map tile 9-12
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Up == true && Right == false && Left == false && Down == false)//Map tile 13-16
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            //DUAL DIRECTION CHECK
+                            if (Left == true && Right == true && Up == false && Down == false)//Map tile  17-20
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Left == true && Up == true && Up == false && Down == false)//Map tile 21-24
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Left == true && Down == true && Up == false && Right == false)//Map tile 25-28
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Right == true && Up == true && Left == false && Down == false)//Map tile 29-32
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Right == true && Down == true && Up == false && Left == false)//Map tile 33-36
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Up == true && Down == true && Left == false && Right == false)//Map tile 37-40
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+                            //TRIPLE DIRECTION CHECK
+                            if (Left == true && Right == true && Up == true && Down == false)//Map tile 41-44
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Left == true && Right == true && Down == true && Up == false)//Map tile 45-48
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Left == true && Down == true && Up == true && Right == false)//Map tile 49-52
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            if (Right == true && Down == true && Up == true && Left == false)//Map tile 53-56
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+
+                            //QUAD DIRECTION CHECK
+                            if (Left == true && Right == true && Up == true && Down == true)//Map tile 57-60
+                            {
+                                PlayerMap[PathY, PathX] = R.Next(0, 4);
+                            }
+                            //U means up PathY--
+                            //R means right PathX++
+                            //D means down PathY++
+                            //L means left PathX--
+                            if ( PathRepeat.Substring(0,i) == "L")
+                            {
+                                PathX--;
+                            }
+                            else if (PathRepeat.Substring(0, i) == "D")
+                            {
+                                PathY++;
+                            }
+                            else if (PathRepeat.Substring(0, i) == "R")
+                            {
+                                PathX++;
+                            }
+                            else if (PathRepeat.Substring(0, i) == "U")
+                            {
+                                PathY--;
+                            }
                         }
-                    }
-                     catch (Exception)
-                    {
-                        Down = false;
-                    }
-                    try
-                    {
-                        if (CorrectPath[PathY - 1, PathX] == 1)
-                        {
-                            Up = true;
-                        }
-                    }
-                     catch (Exception)
-                    {
-                        Up = false;
-                    }
-                    try
-                    {
-                        if (CorrectPath[PathY, PathX + 1] == 1)
-                        {
-                            Right = true;
-                        }
-                    }
-                     catch (Exception)
-                    {
-                        Right = false;
-                    }
-                    try
-                    {
-                        if (CorrectPath[PathY, PathX - 1] == 1)
-                        {
-                            Left = true;
-                        }
-                    }
-                     catch (Exception)
-                    {
-                        Left = false;
-                    }
-
-                    //RANDOM GENERATION CHECK FOR PICKING MAP TITLES
-                    //TOTAL MAP TILES IF CHECKING FOR EACH POSSIBLE COMBINATION: 60
-                    //SINGLE DIRECTION CHECK
-                    if(Left == true && Right == false && Up == false && Down == false)//Map tile 1-4
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0,4);
-                    }
-
-                    if (Right == true && Left == false && Up == false && Down == false)//Map tile 5-8
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Down == true && Right == false && Up == false && Left == false)//Map tile 9-12
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Up == true && Right == false && Left == false && Down == false)//Map tile 13-16
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    //DUAL DIRECTION CHECK
-                    if (Left == true && Right == true && Up == false && Down == false)//Map tile  17-20
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Left == true && Up == true && Up == false && Down == false)//Map tile 21-24
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Left == true && Down == true && Up == false && Right == false)//Map tile 25-28
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Right == true && Up == true && Left == false && Down == false)//Map tile 29-32
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Right == true && Down == true && Up == false && Left == false)//Map tile 33-36
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Up == true && Down == true && Left == false && Right == false)//Map tile 37-40
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-                    //TRIPLE DIRECTION CHECK
-                    if (Left == true && Right == true && Up == true && Down == false)//Map tile 41-44
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Left == true && Right == true && Down == true && Up == false)//Map tile 45-48
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Left == true && Down == true && Up == true && Right == false)//Map tile 49-52
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    if (Right == true && Down == true && Up == true && Left == false)//Map tile 53-56
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
-                    }
-
-                    //QUAD DIRECTION CHECK
-                    if (Left == true && Right == true && Up == true && Down == true)//Map tile 57-60
-                    {
-                        PlayerMap[PathY, PathX] = R.Next(0, 4);
                     }
                 }
                 //write and write line dont work for some reason...   so debug is used here instead          
                 Debug.AutoFlush = true;
                 Debug.Indent();
-                Debug.WriteLine(PathY, PathX + PathRepeat +"");
+                Debug.WriteLine(PathY, PathX + PathRepeat +"," + CurrentLength );
                 Debug.Unindent();
             }
         }
