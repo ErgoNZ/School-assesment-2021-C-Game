@@ -247,9 +247,7 @@ namespace Attempt_1_at_using_pannel
             {
                 if (PlayerCenter.IntersectsWith(UpS[i]))
                 {
-                    MapY = MapY + 1;
-                    Py = Game_Pnl.Top + 10;
-                    MapShift();
+                    Ymovement = -10;
                 }
 
             }
@@ -330,8 +328,9 @@ namespace Attempt_1_at_using_pannel
             {0,0,0,0,0},
             {0,0,0,0,0}
 };
-            int OrigPathX, OrigPathY, PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir;
+            int PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir;
             bool Left,Up,Down,Right;
+            string PathRepeat = "";
             Random R = new System.Random();
             PathX = R.Next(0, 5);
             PathY = R.Next(0, 5);
@@ -344,7 +343,7 @@ namespace Attempt_1_at_using_pannel
             Yarrmin = 0;
             Yarrmax = 4;
             Xarrmin = 0;
-            Xarrmax = 4;
+            Xarrmax = 4;            
             CorrectPath[PathY, PathX] = 1;
             PlayerMap[PathY, PathX] = 3;
             while (CurrentLength < PathLength)
@@ -357,33 +356,49 @@ namespace Attempt_1_at_using_pannel
                 if (Nextdir == 1)
                 {
                     PathY--;
-                    if (PathY < Yarrmin)
+                    if (PathY < Yarrmin || CorrectPath[PathY, PathX] == 1)
                     {
                         PathY++;
-                    }           
+                    }      
+                    else if (CorrectPath[PathY, PathX] == 0)
+                    {
+                        PathRepeat = PathRepeat + "Up";
+                    }
                 }
                 else if (Nextdir == 2)
                 {
                     PathX++;
-                    if (PathX > Xarrmax)
+                    if (PathX > Xarrmax || CorrectPath[PathY, PathX] == 1)
                     {
                         PathX--;
+                    }
+                    else if (CorrectPath[PathY, PathX] == 0)
+                    {
+                        PathRepeat = PathRepeat + "Right";
                     }
                 }
                 else if (Nextdir == 3)
                 {
                     PathY++;
-                    if (PathY > Yarrmax)
+                    if (PathY > Yarrmax || CorrectPath[PathY, PathX] == 1)
                     {
                         PathY--;
+                    }
+                    else if (CorrectPath[PathY, PathX] == 0)
+                    {
+                        PathRepeat = PathRepeat + "Down";
                     }
                 }
                 else if (Nextdir == 4)
                 {
-                    PathX--;
-                    if (PathX < Xarrmin)
+                    PathX--;                  
+                    if (PathX < Xarrmin || CorrectPath[PathY, PathX] == 1)
                     {
                         PathX++;
+                    }
+                    else if (CorrectPath[PathY, PathX] == 0)
+                    {
+                        PathRepeat = PathRepeat + "Left";
                     }
                 }
                 if (CorrectPath[PathY, PathX] == 0)
@@ -392,8 +407,7 @@ namespace Attempt_1_at_using_pannel
                     Up = false;
                     Left = false;
                     Right = false;
-                    CorrectPath[PathY, PathX] = 1;
-                    PlayerMap[PathY, PathX] = 3;                   
+                    CorrectPath[PathY, PathX] = 1;                  
                     CurrentLength++;
                     try
                     {
@@ -523,7 +537,7 @@ namespace Attempt_1_at_using_pannel
                 //write and write line dont work for some reason...   so debug is used here instead          
                 Debug.AutoFlush = true;
                 Debug.Indent();
-                Debug.WriteLine(PathY, PathX +"");
+                Debug.WriteLine(PathY, PathX + PathRepeat +"");
                 Debug.Unindent();
             }
         }

@@ -31,13 +31,13 @@ namespace Attempt_1_at_using_pannel
         {
             this.components = new System.ComponentModel.Container();
             this.Game_Pnl = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.Fuel_Lbl = new System.Windows.Forms.Label();
             this.Return_Btn = new System.Windows.Forms.Button();
             this.Save_Btn = new System.Windows.Forms.Button();
             this.Load_Btn = new System.Windows.Forms.Button();
             this.Framerate = new System.Windows.Forms.Timer(this.components);
             this.Torch_Tmr = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
             this.Game_Pnl.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,10 +51,20 @@ namespace Attempt_1_at_using_pannel
             this.Game_Pnl.Controls.Add(this.Load_Btn);
             this.Game_Pnl.Location = new System.Drawing.Point(1, 0);
             this.Game_Pnl.Name = "Game_Pnl";
-            this.Game_Pnl.Size = new System.Drawing.Size(797, 451);
+            this.Game_Pnl.Size = new System.Drawing.Size(919, 558);
             this.Game_Pnl.TabIndex = 0;
             this.Game_Pnl.TabStop = true;
             this.Game_Pnl.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(418, 132);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 15);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "label1";
             // 
             // Fuel_Lbl
             // 
@@ -112,22 +122,12 @@ namespace Attempt_1_at_using_pannel
             this.Torch_Tmr.Interval = 1000;
             this.Torch_Tmr.Tick += new System.EventHandler(this.Torch_Tmr_Tick);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(418, 132);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 15);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "label1";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(920, 557);
             this.Controls.Add(this.Game_Pnl);
             this.DoubleBuffered = true;
             this.Name = "Form1";
