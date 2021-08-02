@@ -43,7 +43,7 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] PlayerMap = new int[5, 5]
         {
-            {0,0,0,0,0},
+            {1,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
@@ -57,7 +57,6 @@ namespace Attempt_1_at_using_pannel
             Ymovement = -5;
             Xmovement = 0;
             Py = 300;
-            GenLvl();
             MapShift();
             boundB = new Rectangle(0,Game_Pnl.Bottom,Game_Pnl.Width, 5);
             boundL = new Rectangle(0, 0, 5, Game_Pnl.Height);
@@ -174,15 +173,15 @@ namespace Attempt_1_at_using_pannel
                     Py = UpS[i].Top - 71;
                     jump = true;
                 }
-
-                if (up == true & jump == true)
-                {
-                    Ymovement = 38;
-                    jump = false;
-                }
                 else if (!BSide.IntersectsWith(UpS[i]) & Ymovement >= -15)
                 {
                     Ymovement--;
+                }
+
+                if (up == true & jump == true)
+                {
+                    Ymovement = 40;
+                    jump = false;
                 }
             }
             for (int i = 1; i < 7; i++)
@@ -239,7 +238,7 @@ namespace Attempt_1_at_using_pannel
                 if (MapY <= 3)
                 {
                     MapY = MapY + 1;
-                    Py = Game_Pnl.Top + 10;
+                    Py = Game_Pnl.Top + 1;
                     MapShift();
                 }
             }
@@ -282,9 +281,9 @@ namespace Attempt_1_at_using_pannel
             }
             if (PlayerMap[MapY, MapX] == 1)
             {
-                Object[1] = new Rectangle(0, 300, 100, 50); //this is ground
-                Object[2] = new Rectangle(0, 400, 5000, 50); // this is the ground
-                Object[3] = new Rectangle(300, 250, 150, 30);
+                Object[1] = new Rectangle(0, 0, 1000, 50); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(870, 0, 50, 600); // right wall
                 for (int O = 1; O < 7; O++)
                 {
                     UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
@@ -619,7 +618,7 @@ namespace Attempt_1_at_using_pannel
             e.Graphics.FillRectangle(Brushes.BurlyWood, Stick);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
-           if(Fuel <= 1 & Fuel >=0.6)
+            if (Fuel <= 1 & Fuel >=0.6)
            { 
                 path.AddEllipse(Px - 120 + Xshift, Py - 75, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
             }
@@ -633,7 +632,7 @@ namespace Attempt_1_at_using_pannel
                 path.AddEllipse(Px - 110 + Xshift, Py - 30, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
             }
             rgn.Exclude(path);
-            e.Graphics.FillRegion(Brushes.Black, rgn);
+           // e.Graphics.FillRegion(Brushes.Black, rgn);
             e.Graphics.FillRectangle(Brushes.OrangeRed, LightBar);
         }
     }
