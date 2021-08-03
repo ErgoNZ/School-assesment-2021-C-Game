@@ -17,14 +17,14 @@ namespace Attempt_1_at_using_pannel
     public partial class Form1 : Form
     {
         Graphics g;
-        Rectangle[] UpS = new Rectangle[7];
-        Rectangle[] DownS = new Rectangle[7];
-        Rectangle[] LeftS = new Rectangle[7];
-        Rectangle[] RightS = new Rectangle[7];
-        Rectangle[] Object = new Rectangle[7];
+        Rectangle[] UpS = new Rectangle[20];
+        Rectangle[] DownS = new Rectangle[20];
+        Rectangle[] LeftS = new Rectangle[20];
+        Rectangle[] RightS = new Rectangle[20];
+        Rectangle[] Object = new Rectangle[20];
         Rectangle Player, PlayerCenter, LSide, TSide, BSide, RSide, LightBar, Stick, boundL, boundR, boundT, boundB;
         string line;
-        int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY, PathX, PathY;
+        int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY, PathX, PathY, RecColour;
         double Fuel = 1.0;
         bool left, right, up, jump;
         int[,] Var = new int[10,2]
@@ -43,7 +43,7 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] PlayerMap = new int[5, 5]
         {
-            {1,0,0,0,0},
+            {3,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
@@ -139,7 +139,7 @@ namespace Attempt_1_at_using_pannel
             RSide = new Rectangle(Px+30, Py, 5, 70);//Player Rectangle
             LightBar = new Rectangle(685,50 ,LightBarLngth, 20);
             Game_Pnl.Invalidate();
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < RecColour; i++)
             {
                 if (left == true & !LSide.IntersectsWith(RightS[i]))
                 {
@@ -154,7 +154,7 @@ namespace Attempt_1_at_using_pannel
                     Xmovement = 0;
                 }
             }
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < RecColour; i++)
             {
                 if (right == true & !RSide.IntersectsWith(LeftS[i]))
                 {
@@ -165,26 +165,16 @@ namespace Attempt_1_at_using_pannel
                     Px = LeftS[i].Left- 38;
                 }
             }
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < RecColour; i++)
             {
                 if (BSide.IntersectsWith(UpS[i]))
                 {
                     Ymovement = 0;
-                    Py = UpS[i].Top - 71;
+                    Py = UpS[i].Top - 70;
                     jump = true;
-                }
-                else if (!BSide.IntersectsWith(UpS[i]) & Ymovement >= -15)
-                {
-                    Ymovement--;
-                }
-
-                if (up == true & jump == true)
-                {
-                    Ymovement = 40;
-                    jump = false;
-                }
+                }                           
             }
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < RecColour; i++)
             {
                 if (TSide.IntersectsWith(DownS[i]))
                 {
@@ -242,21 +232,30 @@ namespace Attempt_1_at_using_pannel
                     MapShift();
                 }
             }
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < RecColour; i++)
             {
-                if (PlayerCenter.IntersectsWith(UpS[i]))
+                if (PlayerCenter.IntersectsWith(UpS[i]) || PlayerCenter.IntersectsWith(Object[i]))
                 {
                     Ymovement = -10;
                 }
+            }
+            if (up == true & jump == true)
+            {
+                Ymovement = 40;
+                jump = false;
+            }
 
+            if (Ymovement >= -14)
+            {
+                Ymovement -= 5;
             }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
             Game_Pnl.Invalidate();
         }
         private void MapShift()
-        {
-            for (int O = 1; O<7; O++)
+        {          
+            for (int O = 1; O<RecColour; O++)
             {
                 Object[O] = Rectangle.Empty;
                 UpS[O] = Rectangle.Empty;
@@ -264,38 +263,38 @@ namespace Attempt_1_at_using_pannel
                 RightS[O] = Rectangle.Empty;
                 LeftS[O] = Rectangle.Empty;
             }
-            if (PlayerMap[MapY, MapX] == 0)
-            {
-                Object[1] = new Rectangle(0, 400, 5000, 50); // this is the ground
-                Object[2] = new Rectangle(500, 300, 100, 50);
-                Object[3] = new Rectangle(300, 250, 150, 30);
-                Object[4] = new Rectangle(100, 150, 150, 30);
-                Stick = new Rectangle(375, 200, 50, 50);
-                for (int O = 1; O < 7; O++)
-                {
-                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
-                    RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
-                    LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
-                    DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom-10, Object[O].Width, 5);
-                }
-            }
+
             if (PlayerMap[MapY, MapX] == 1)
-            {
+            { //X,Y,Width,height
+                RecColour = 9;
                 Object[1] = new Rectangle(0, 0, 1000, 50); //this is a roof
                 Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
                 Object[3] = new Rectangle(870, 0, 50, 600); // right wall
-                for (int O = 1; O < 7; O++)
+                Object[4] = new Rectangle(350, 390, 80, 150); // box on floor
+                Object[5] = new Rectangle(465, 0, 35, 150); //box coming out of roof
+                Object[6] = new Rectangle(250, 0, 25, 185); //box 2 coming out of roof
+                Object[7] = new Rectangle(685, 390, 40, 150); // box 2 on floor
+                Object[8] = new Rectangle(634, 0, 25, 300); //box 3 coming out of roof
+                for (int O = 1; O < 9; O++)
                 {
-                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
+                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 15);
                     RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
                     LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
                     DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
                 }
             }
             if (PlayerMap[MapY, MapX] == 2)
-            {
-                Object[2] = new Rectangle(250, 400, 450, 50); // this is the ground
-                for (int O = 1; O < 7; O++)
+            {   //X,Y,Width,height
+                RecColour = 9;
+                Object[1] = new Rectangle(0, 0, 1000, 50); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(870, 0, 50, 600); // right wall
+                Object[4] = new Rectangle(200, 390, 80, 150); // box 1 on floor
+                Object[5] = new Rectangle(300, 260, 50, 40); // floating platform 1
+                Object[6] = new Rectangle(800, 300, 50, 40); // floating platform 2
+                Object[7] = new Rectangle(500, 300, 250, 40); // floating platform 3
+                Object[8] = new Rectangle(400, 360, 50, 40); // floating platform 4
+                for (int O = 1; O < 9; O++)
                 {
                     UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
                     RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
@@ -304,10 +303,13 @@ namespace Attempt_1_at_using_pannel
                 }
             }
             if (PlayerMap[MapY, MapX] == 3)
-            {
-                Object[1] = new Rectangle(75, 300, 100, 50); //this is ground
-                Object[2] = new Rectangle(250, 400, 450, 50); // this is the ground
-                for (int O = 1; O < 7; O++)
+            {//X,Y,Width,height
+                RecColour = 4;
+                Object[1] = new Rectangle(0, 0, 1000, 50); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(870, 0, 50, 600); // right wall
+                Object[4] = new Rectangle(200, 390, 80, 150); // box 1 on floor
+                for (int O = 1; O < 4; O++)
                 {
                     UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
                     RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
@@ -316,7 +318,8 @@ namespace Attempt_1_at_using_pannel
                 }
             }
         }
-
+        
+        // Random level generation
         public void GenLvl()
         {
             int[,] CorrectPath = new int[5, 5]
@@ -346,7 +349,6 @@ namespace Attempt_1_at_using_pannel
             Xarrmin = 0;
             Xarrmax = 4;            
             CorrectPath[PathY, PathX] = 1;
-            PlayerMap[PathY, PathX] = 3;
             while (CurrentLength < PathLength)
             {
                 //1 means up PathY--
@@ -574,7 +576,7 @@ namespace Attempt_1_at_using_pannel
         {
             if(Fuel >= 0 & Fuel <= 1)
             {
-                Fuel -= 0.02;
+                Fuel -= 0.01;
                 Xshift = (int)((1-Fuel)*100 + 2);
             } 
             else
@@ -611,10 +613,10 @@ namespace Attempt_1_at_using_pannel
             //use the DrawImage method to draw the spaceship on the panel
             //use the DrawImage method to draw the planet on the panel
             e.Graphics.FillRectangle(Brushes.Black, Player);
-            e.Graphics.FillRectangle(Brushes.Black, Object[1]);
-            e.Graphics.FillRectangle(Brushes.Black, Object[2]);
-            e.Graphics.FillRectangle(Brushes.Black, Object[3]);
-            e.Graphics.FillRectangle(Brushes.Black, Object[4]);
+            for( int i = 1; i<RecColour; i++)
+            {
+                e.Graphics.FillRectangle(Brushes.Black, Object[i]);
+            }          
             e.Graphics.FillRectangle(Brushes.BurlyWood, Stick);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
@@ -632,7 +634,7 @@ namespace Attempt_1_at_using_pannel
                 path.AddEllipse(Px - 110 + Xshift, Py - 30, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
             }
             rgn.Exclude(path);
-           // e.Graphics.FillRegion(Brushes.Black, rgn);
+            //e.Graphics.FillRegion(Brushes.Black, rgn);
             e.Graphics.FillRectangle(Brushes.OrangeRed, LightBar);
         }
     }
