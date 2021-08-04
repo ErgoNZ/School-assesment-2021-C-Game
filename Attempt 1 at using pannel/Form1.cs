@@ -43,7 +43,7 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] PlayerMap = new int[5, 5]
         {
-            {3,0,0,0,0},
+            {4,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
@@ -218,7 +218,7 @@ namespace Attempt_1_at_using_pannel
                 {
                     MapY = MapY -1;
                     Py = Game_Pnl.Bottom - 75;
-                    Ymovement = Ymovement + 5;
+                    Ymovement += 5;
                     MapShift();
                 }
             }
@@ -274,14 +274,7 @@ namespace Attempt_1_at_using_pannel
                 Object[5] = new Rectangle(465, 0, 35, 150); //box coming out of roof
                 Object[6] = new Rectangle(250, 0, 25, 185); //box 2 coming out of roof
                 Object[7] = new Rectangle(685, 390, 40, 150); // box 2 on floor
-                Object[8] = new Rectangle(634, 0, 25, 300); //box 3 coming out of roof
-                for (int O = 1; O < 9; O++)
-                {
-                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 15);
-                    RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
-                    LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
-                    DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
-                }
+                Object[8] = new Rectangle(634, 0, 25, 300); //box 3 coming out of roof              
             }
             if (PlayerMap[MapY, MapX] == 2)
             {   //X,Y,Width,height
@@ -293,29 +286,36 @@ namespace Attempt_1_at_using_pannel
                 Object[5] = new Rectangle(300, 260, 50, 40); // floating platform 1
                 Object[6] = new Rectangle(800, 300, 50, 40); // floating platform 2
                 Object[7] = new Rectangle(500, 300, 250, 40); // floating platform 3
-                Object[8] = new Rectangle(400, 360, 50, 40); // floating platform 4
-                for (int O = 1; O < 9; O++)
-                {
-                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
-                    RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
-                    LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
-                    DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
-                }
+                Object[8] = new Rectangle(400, 360, 50, 40); // floating platform 4               
             }
             if (PlayerMap[MapY, MapX] == 3)
             {//X,Y,Width,height
-                RecColour = 4;
+                RecColour = 8;
                 Object[1] = new Rectangle(0, 0, 1000, 50); //this is a roof
                 Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(500, 0, 500, 600); // right wall
+                Object[4] = new Rectangle(400, 350, 100, 50); // right wall platform
+                Object[5] = new Rectangle(275, 440, 50, 150); // Ground box 1
+                Object[6] = new Rectangle(275, 235, 100, 25); // Floating box 1
+                Object[7] = new Rectangle(75, 235, 100, 25); // Floating box 2
+            }
+            if (PlayerMap[MapY, MapX] == 4)
+            {//X,Y,Width,height
+                RecColour = 8;
+                Object[1] = new Rectangle(10, 0, 1000, 300); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
                 Object[3] = new Rectangle(870, 0, 50, 600); // right wall
-                Object[4] = new Rectangle(200, 390, 80, 150); // box 1 on floor
-                for (int O = 1; O < 4; O++)
-                {
-                    UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
-                    RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
-                    LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
-                    DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
-                }
+                Object[4] = new Rectangle(230, 390, 80, 150); // box on floor
+                Object[5] = new Rectangle(635, 300, 80, 140); // box on roof
+                Object[6] = new Rectangle(500, 420, 40, 120); // box 2 on floor
+                Object[7] = new Rectangle(400, 460, 40, 120); // box 3 on floor
+            }
+            for (int O = 1; O <= RecColour; O++)
+            {
+                UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
+                RightS[O] = new Rectangle(Object[O].Right - 5, Object[O].Top + 5, 5, Object[O].Height - 5);
+                LeftS[O] = new Rectangle(Object[O].Left, Object[O].Top + 5, 5, Object[O].Height - 5);
+                DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
             }
         }
         
@@ -347,7 +347,7 @@ namespace Attempt_1_at_using_pannel
             Yarrmin = 0;
             Yarrmax = 4;
             Xarrmin = 0;
-            Xarrmax = 4;            
+            Xarrmax = 4;
             CorrectPath[PathY, PathX] = 1;
             while (CurrentLength < PathLength)
             {
