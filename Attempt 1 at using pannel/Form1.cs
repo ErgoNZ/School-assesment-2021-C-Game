@@ -43,7 +43,7 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] PlayerMap = new int[5, 5]
         {
-            {4,0,0,0,0},
+            {8,2,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
@@ -263,7 +263,7 @@ namespace Attempt_1_at_using_pannel
                 RightS[O] = Rectangle.Empty;
                 LeftS[O] = Rectangle.Empty;
             }
-
+            //Left exit/enterence
             if (PlayerMap[MapY, MapX] == 1)
             { //X,Y,Width,height
                 RecColour = 9;
@@ -310,6 +310,70 @@ namespace Attempt_1_at_using_pannel
                 Object[6] = new Rectangle(500, 420, 40, 120); // box 2 on floor
                 Object[7] = new Rectangle(400, 460, 40, 120); // box 3 on floor
             }
+            //Right exit/enterence
+            if (PlayerMap[MapY, MapX] == 5)
+            {//X,Y,Width,height
+                RecColour = 8;
+                Object[1] = new Rectangle(10, 0, 1000, 250); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(0, 0, 50, 600); // left wall
+                Object[4] = new Rectangle(670, 390, 80, 150); // box on floor
+                Object[5] = new Rectangle(180, 250, 80, 140); // box on roof
+                Object[6] = new Rectangle(500, 420, 40, 120); // box 2 on floor
+                Object[7] = new Rectangle(350, 390, 40, 120); // box 3 on floor
+            }
+            if (PlayerMap[MapY, MapX] == 6)
+            {//X,Y,Width,height
+                RecColour = 10;
+                Object[1] = new Rectangle(10, 0, 1000, 100); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(0, 0, 50, 600); // left wall
+                Object[4] = new Rectangle(670, 390, 80, 150); // box 1 on floor
+                Object[5] = new Rectangle(40, 200, 80, 100); // box on left wall
+                Object[6] = new Rectangle(475, 450, 35, 60); // box 2 on floor
+                Object[7] = new Rectangle(350, 390, 40, 120); // box 3 on floor
+                Object[8] = new Rectangle(250, 310, 40, 120); // box 1 mid air
+                Object[9] = new Rectangle(150, 240, 40, 60); // box 2 mid air
+            }
+            if (PlayerMap[MapY, MapX] == 7)
+            {//X,Y,Width,height
+                RecColour = 5;
+                Object[1] = new Rectangle(10, 0, 1000, 100); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(0, 0, 50, 600); // left wall
+                Object[4] = new Rectangle(345, 390, 80, 150); // box 1 on floor
+            }
+            if (PlayerMap[MapY, MapX] == 8)
+            {//X,Y,Width,height
+                RecColour = 8;
+                Object[1] = new Rectangle(10, 0, 1000, 100); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(0, 0, 50, 600); // left wall
+                Object[4] = new Rectangle(345, 390, 80, 150); // box 1 on floor
+                Object[5] = new Rectangle(534, 0, 25, 300); //box 1 coming out of roof   
+                Object[6] = new Rectangle(265, 0, 35, 150); //box 2 coming out of roof
+                Object[7] = new Rectangle(735, 0, 15, 270); //box 1 coming out of roof 
+            }
+            //Down exit/enterance
+            if (PlayerMap[MapY, MapX] == 9)
+            {//X,Y,Width,height
+                RecColour = 8;
+                Object[1] = new Rectangle(10, 0, 1000, 100); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(0, 0, 50, 600); // left wall
+                Object[4] = new Rectangle(345, 390, 80, 150); // box 1 on floor
+                Object[5] = new Rectangle(534, 0, 25, 300); //box 1 coming out of roof   
+                Object[6] = new Rectangle(265, 0, 35, 150); //box 2 coming out of roof
+                Object[7] = new Rectangle(735, 0, 15, 270); //box 1 coming out of roof 
+            }
+            //Up exit/enterance
+
+            //Elbow rooms
+
+            //T-Rooms
+
+            //Plus-Shape rooms
+
             for (int O = 1; O <= RecColour; O++)
             {
                 UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
