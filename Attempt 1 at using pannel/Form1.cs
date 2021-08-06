@@ -43,7 +43,7 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] PlayerMap = new int[5, 5]
         {
-            {8,2,0,0,0},
+            {10,2,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
@@ -357,14 +357,28 @@ namespace Attempt_1_at_using_pannel
             //Down exit/enterance
             if (PlayerMap[MapY, MapX] == 9)
             {//X,Y,Width,height
-                RecColour = 8;
-                Object[1] = new Rectangle(10, 0, 1000, 100); //this is a roof
-                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
-                Object[3] = new Rectangle(0, 0, 50, 600); // left wall
-                Object[4] = new Rectangle(345, 390, 80, 150); // box 1 on floor
-                Object[5] = new Rectangle(534, 0, 25, 300); //box 1 coming out of roof   
-                Object[6] = new Rectangle(265, 0, 35, 150); //box 2 coming out of roof
-                Object[7] = new Rectangle(735, 0, 15, 270); //box 1 coming out of roof 
+                RecColour = 10;
+                Object[1] = new Rectangle(0, 10, 225, 600); // left wall
+                Object[2] = new Rectangle(0, 540, 1000, 50); // ground
+                Object[3] = new Rectangle(750, 10, 300, 600); // right wall
+                Object[4] = new Rectangle(415, 410, 150, 150); // box 1 on floor
+                Object[5] = new Rectangle(220, 320, 120, 50); // box 1 on wall
+                Object[6] = new Rectangle(630, 320, 120, 50); // box 2 on wall
+                Object[7] = new Rectangle(415, 210, 150, 50); // floating box 1
+                Object[8] = new Rectangle(220, 110, 120, 50); // box 3 on wall
+                Object[9] = new Rectangle(630, 110, 120, 50); // box 4 on wall
+            }
+            if (PlayerMap[MapY, MapX] == 10)
+            {//X,Y,Width,height
+                RecColour = 11;
+                Object[1] = new Rectangle(0, 10, 225, 600); // left wall
+                Object[2] = new Rectangle(0, 540, 1000, 50); // ground
+                Object[3] = new Rectangle(750, 10, 300, 600); // right wall
+                Object[4] = new Rectangle(415, 410, 150, 50); // floating box 1
+                Object[5] = new Rectangle(220, 320, 120, 50); // box 1 on wall
+                Object[7] = new Rectangle(415, 210, 150, 50); // floating box 2
+                Object[9] = new Rectangle(630, 110, 120, 50); // box 2 on wall
+                Object[10] = new Rectangle(630, 500, 120, 50); // box 1 on floor
             }
             //Up exit/enterance
 
