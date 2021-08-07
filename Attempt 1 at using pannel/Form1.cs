@@ -43,8 +43,8 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] PlayerMap = new int[5, 5]
         {
-            {10,2,0,0,0},
-            {0,0,0,0,0},
+            {14,9,0,0,0},
+            {10,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0}
@@ -57,6 +57,7 @@ namespace Attempt_1_at_using_pannel
             Ymovement = -5;
             Xmovement = 0;
             Py = 300;
+            Px = 500;
             MapShift();
             boundB = new Rectangle(0,Game_Pnl.Bottom,Game_Pnl.Width, 5);
             boundL = new Rectangle(0, 0, 5, Game_Pnl.Height);
@@ -197,8 +198,8 @@ namespace Attempt_1_at_using_pannel
                 if(MapX >= 1)
                 {
                     MapX = MapX - 1;
-                    Px = Game_Pnl.Right;
                     MapShift();
+                    Px = Game_Pnl.Right;
                 }
             }
 
@@ -207,8 +208,8 @@ namespace Attempt_1_at_using_pannel
                 if (MapX <= 3)
                 {
                     MapX = MapX + 1;
-                    Px = Game_Pnl.Left - 10;
                     MapShift();
+                    Px = Game_Pnl.Left - 10;
                 }
             }
 
@@ -217,28 +218,28 @@ namespace Attempt_1_at_using_pannel
                 if (MapY >= 1)
                 {
                     MapY = MapY -1;
+                    MapShift();
                     Py = Game_Pnl.Bottom - 75;
                     Ymovement += 5;
-                    MapShift();
                 }
             }
 
             if (Player.IntersectsWith(boundB))
             {
                 if (MapY <= 3)
-                {
+                {                    
                     MapY = MapY + 1;
-                    Py = Game_Pnl.Top + 1;
                     MapShift();
+                    Py = Game_Pnl.Top + 1;
                 }
             }
-            for (int i = 1; i < RecColour; i++)
-            {
-                if (PlayerCenter.IntersectsWith(UpS[i]) || PlayerCenter.IntersectsWith(Object[i]))
-                {
-                    Ymovement = -10;
-                }
-            }
+           //for (int i = 1; i < RecColour; i++)
+           //{
+           //    if (PlayerCenter.IntersectsWith(UpS[i]) || PlayerCenter.IntersectsWith(Object[i]))
+           //    {
+           //        Ymovement = -10;
+           //    }
+           //}
             if (up == true & jump == true)
             {
                 Ymovement = 40;
@@ -263,7 +264,7 @@ namespace Attempt_1_at_using_pannel
                 RightS[O] = Rectangle.Empty;
                 LeftS[O] = Rectangle.Empty;
             }
-            //Left exit/enterence
+            //Left exit/enterence X4
             if (PlayerMap[MapY, MapX] == 1)
             { //X,Y,Width,height
                 RecColour = 9;
@@ -310,7 +311,7 @@ namespace Attempt_1_at_using_pannel
                 Object[6] = new Rectangle(500, 420, 40, 120); // box 2 on floor
                 Object[7] = new Rectangle(400, 460, 40, 120); // box 3 on floor
             }
-            //Right exit/enterence
+            //Right exit/enterence X4
             if (PlayerMap[MapY, MapX] == 5)
             {//X,Y,Width,height
                 RecColour = 8;
@@ -354,7 +355,7 @@ namespace Attempt_1_at_using_pannel
                 Object[6] = new Rectangle(265, 0, 35, 150); //box 2 coming out of roof
                 Object[7] = new Rectangle(735, 0, 15, 270); //box 1 coming out of roof 
             }
-            //Down exit/enterance
+            //Down exit/enterance X4
             if (PlayerMap[MapY, MapX] == 9)
             {//X,Y,Width,height
                 RecColour = 10;
@@ -370,24 +371,70 @@ namespace Attempt_1_at_using_pannel
             }
             if (PlayerMap[MapY, MapX] == 10)
             {//X,Y,Width,height
-                RecColour = 11;
+                RecColour = 9;
                 Object[1] = new Rectangle(0, 10, 225, 600); // left wall
                 Object[2] = new Rectangle(0, 540, 1000, 50); // ground
                 Object[3] = new Rectangle(750, 10, 300, 600); // right wall
                 Object[4] = new Rectangle(415, 410, 150, 50); // floating box 1
                 Object[5] = new Rectangle(220, 320, 120, 50); // box 1 on wall
-                Object[7] = new Rectangle(415, 210, 150, 50); // floating box 2
-                Object[9] = new Rectangle(630, 110, 120, 50); // box 2 on wall
-                Object[10] = new Rectangle(630, 500, 120, 50); // box 1 on floor
+                Object[6] = new Rectangle(415, 210, 150, 50); // floating box 2
+                Object[7] = new Rectangle(630, 110, 120, 50); // box 2 on wall
+                Object[8] = new Rectangle(630, 500, 120, 50); // box 1 on floor
             }
-            //Up exit/enterance
-
+            //Up exit/enterance X4
+            if (PlayerMap[MapY, MapX] == 11)
+            {//X,Y,Width,height
+                RecColour = 11;
+                Object[1] = new Rectangle(0, 10, 225, 600); // left wall
+                Object[2] = new Rectangle(0, 0, 1000, 20); // ground
+                Object[3] = new Rectangle(750, 10, 300, 600); // right wall
+            }
+            if (PlayerMap[MapY, MapX] == 12)
+            {//X,Y,Width,height
+                RecColour = 11;
+                Object[1] = new Rectangle(0, 10, 225, 600); // left wall
+                Object[2] = new Rectangle(0, 0, 1000, 20); // ground
+                Object[3] = new Rectangle(750, 10, 300, 600); // right wall
+                Object[4] = new Rectangle(415, 500, 150, 50); // floating box 1
+                Object[5] = new Rectangle(220, 420, 120, 50); // box 1 on wall
+                Object[6] = new Rectangle(415, 310, 150, 50); // floating box 2
+                Object[7] = new Rectangle(630, 210, 120, 50); // box 2 on wall
+            }
             //Elbow rooms
+            //Left Up
+            if (PlayerMap[MapY, MapX] == 13)
+            {//X,Y,Width,height
+                RecColour = 8;
+                Object[1] = new Rectangle(0, 0, 225, 100); // left wall
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(750, 10, 300, 600); // right wall
+                Object[4] = new Rectangle(630, 310, 120, 50); // box 1 on wall
+                Object[5] = new Rectangle(500, 440, 80, 100); // box 1 on floor
+                Object[6] = new Rectangle(430, 210, 150, 50); // floating box 1
+                Object[7] = new Rectangle(230, 110, 150, 50); // floating box 2
+            }
+            if (PlayerMap[MapY, MapX] == 14)
+            {//X,Y,Width,height
+                RecColour = 8;
+                Object[1] = new Rectangle(0, 0, 225, 100); // left wall
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(750, 10, 300, 600); // right wall
+            }
+            //Left Down
+
+            //Right Up
+
+            //Right Down
 
             //T-Rooms
 
-            //Plus-Shape rooms
+            //Hallway rooms
+            //Up Down
+            //Left,Right
 
+            //Plus-Shape rooms X1
+
+            //Creates hitboxes for each object on screen
             for (int O = 1; O <= RecColour; O++)
             {
                 UpS[O] = new Rectangle(Object[O].Left, Object[O].Top, Object[O].Width, 10);
@@ -544,22 +591,22 @@ namespace Attempt_1_at_using_pannel
                             //RANDOM GENERATION CHECK FOR PICKING MAP TITLES
                             //TOTAL MAP TILES IF CHECKING FOR EACH POSSIBLE COMBINATION: 60
                             //SINGLE DIRECTION CHECK
-                            if (Left == true && Right == false && Up == false && Down == false)//Map tile 1-4
+                            if (Left == true && Right == false && Up == false && Down == false)//Map tile 1-4 done
                             {
                                 PlayerMap[PathY, PathX] = R.Next(0, 4);
                             }
 
-                            if (Right == true && Left == false && Up == false && Down == false)//Map tile 5-8
+                            if (Right == true && Left == false && Up == false && Down == false)//Map tile 5-8 done
                             {
                                 PlayerMap[PathY, PathX] = R.Next(0, 4);
                             }
 
-                            if (Down == true && Right == false && Up == false && Left == false)//Map tile 9-12
+                            if (Down == true && Right == false && Up == false && Left == false)//Map tile 9-12 done
                             {
                                 PlayerMap[PathY, PathX] = R.Next(0, 4);
                             }
 
-                            if (Up == true && Right == false && Left == false && Down == false)//Map tile 13-16
+                            if (Up == true && Right == false && Left == false && Down == false)//Map tile 13-16 done
                             {
                                 PlayerMap[PathY, PathX] = R.Next(0, 4);
                             }
