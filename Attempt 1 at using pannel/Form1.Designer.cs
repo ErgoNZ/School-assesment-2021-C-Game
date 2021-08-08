@@ -31,7 +31,12 @@ namespace Attempt_1_at_using_pannel
         {
             this.components = new System.ComponentModel.Container();
             this.Game_Pnl = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.Diff_Lbl = new System.Windows.Forms.Label();
+            this.Extreme_Btn = new System.Windows.Forms.Button();
+            this.Hard_Btn = new System.Windows.Forms.Button();
+            this.Normal_Btn = new System.Windows.Forms.Button();
+            this.NameSave_Btn = new System.Windows.Forms.Button();
+            this.PlayerName_TxtBox = new System.Windows.Forms.TextBox();
             this.Fuel_Lbl = new System.Windows.Forms.Label();
             this.Return_Btn = new System.Windows.Forms.Button();
             this.Save_Btn = new System.Windows.Forms.Button();
@@ -44,7 +49,12 @@ namespace Attempt_1_at_using_pannel
             // Game_Pnl
             // 
             this.Game_Pnl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Game_Pnl.Controls.Add(this.label1);
+            this.Game_Pnl.Controls.Add(this.Diff_Lbl);
+            this.Game_Pnl.Controls.Add(this.Extreme_Btn);
+            this.Game_Pnl.Controls.Add(this.Hard_Btn);
+            this.Game_Pnl.Controls.Add(this.Normal_Btn);
+            this.Game_Pnl.Controls.Add(this.NameSave_Btn);
+            this.Game_Pnl.Controls.Add(this.PlayerName_TxtBox);
             this.Game_Pnl.Controls.Add(this.Fuel_Lbl);
             this.Game_Pnl.Controls.Add(this.Return_Btn);
             this.Game_Pnl.Controls.Add(this.Save_Btn);
@@ -56,15 +66,64 @@ namespace Attempt_1_at_using_pannel
             this.Game_Pnl.TabStop = true;
             this.Game_Pnl.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // label1
+            // Diff_Lbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(418, 132);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 15);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "label1";
+            this.Diff_Lbl.AutoSize = true;
+            this.Diff_Lbl.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Diff_Lbl.ForeColor = System.Drawing.Color.Red;
+            this.Diff_Lbl.Location = new System.Drawing.Point(336, 370);
+            this.Diff_Lbl.Name = "Diff_Lbl";
+            this.Diff_Lbl.Size = new System.Drawing.Size(115, 32);
+            this.Diff_Lbl.TabIndex = 10;
+            this.Diff_Lbl.Text = "Difficulty:";
+            // 
+            // Extreme_Btn
+            // 
+            this.Extreme_Btn.Location = new System.Drawing.Point(524, 421);
+            this.Extreme_Btn.Name = "Extreme_Btn";
+            this.Extreme_Btn.Size = new System.Drawing.Size(126, 79);
+            this.Extreme_Btn.TabIndex = 9;
+            this.Extreme_Btn.Text = "Extreme (25 Seconds)";
+            this.Extreme_Btn.UseVisualStyleBackColor = true;
+            this.Extreme_Btn.Click += new System.EventHandler(this.Extreme_Btn_Click);
+            // 
+            // Hard_Btn
+            // 
+            this.Hard_Btn.Location = new System.Drawing.Point(380, 421);
+            this.Hard_Btn.Name = "Hard_Btn";
+            this.Hard_Btn.Size = new System.Drawing.Size(134, 79);
+            this.Hard_Btn.TabIndex = 8;
+            this.Hard_Btn.Text = "Hard (50 Seconds)";
+            this.Hard_Btn.UseVisualStyleBackColor = true;
+            this.Hard_Btn.Click += new System.EventHandler(this.Hard_Btn_Click);
+            // 
+            // Normal_Btn
+            // 
+            this.Normal_Btn.Location = new System.Drawing.Point(241, 421);
+            this.Normal_Btn.Name = "Normal_Btn";
+            this.Normal_Btn.Size = new System.Drawing.Size(133, 79);
+            this.Normal_Btn.TabIndex = 7;
+            this.Normal_Btn.Text = "Normal (100 Seconds)";
+            this.Normal_Btn.UseVisualStyleBackColor = true;
+            this.Normal_Btn.Click += new System.EventHandler(this.Normal_Btn_Click);
+            // 
+            // NameSave_Btn
+            // 
+            this.NameSave_Btn.Location = new System.Drawing.Point(694, 16);
+            this.NameSave_Btn.Name = "NameSave_Btn";
+            this.NameSave_Btn.Size = new System.Drawing.Size(89, 34);
+            this.NameSave_Btn.TabIndex = 6;
+            this.NameSave_Btn.Text = "Save name";
+            this.NameSave_Btn.UseVisualStyleBackColor = true;
+            this.NameSave_Btn.Click += new System.EventHandler(this.NameSave_Btn_Click);
+            // 
+            // PlayerName_TxtBox
+            // 
+            this.PlayerName_TxtBox.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.PlayerName_TxtBox.Location = new System.Drawing.Point(789, 15);
+            this.PlayerName_TxtBox.Name = "PlayerName_TxtBox";
+            this.PlayerName_TxtBox.Size = new System.Drawing.Size(118, 35);
+            this.PlayerName_TxtBox.TabIndex = 5;
             // 
             // Fuel_Lbl
             // 
@@ -72,7 +131,7 @@ namespace Attempt_1_at_using_pannel
             this.Fuel_Lbl.BackColor = System.Drawing.Color.Black;
             this.Fuel_Lbl.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Fuel_Lbl.ForeColor = System.Drawing.Color.OrangeRed;
-            this.Fuel_Lbl.Location = new System.Drawing.Point(681, 7);
+            this.Fuel_Lbl.Location = new System.Drawing.Point(11, 9);
             this.Fuel_Lbl.Name = "Fuel_Lbl";
             this.Fuel_Lbl.Size = new System.Drawing.Size(95, 30);
             this.Fuel_Lbl.TabIndex = 4;
@@ -81,19 +140,19 @@ namespace Attempt_1_at_using_pannel
             // Return_Btn
             // 
             this.Return_Btn.AutoSize = true;
-            this.Return_Btn.Location = new System.Drawing.Point(162, 0);
+            this.Return_Btn.Location = new System.Drawing.Point(380, 107);
             this.Return_Btn.Name = "Return_Btn";
-            this.Return_Btn.Size = new System.Drawing.Size(96, 25);
+            this.Return_Btn.Size = new System.Drawing.Size(134, 55);
             this.Return_Btn.TabIndex = 3;
-            this.Return_Btn.Text = "Back to game";
+            this.Return_Btn.Text = "Start/Back to game";
             this.Return_Btn.UseVisualStyleBackColor = true;
             this.Return_Btn.Click += new System.EventHandler(this.Return_Btn_Click);
             // 
             // Save_Btn
             // 
-            this.Save_Btn.Location = new System.Drawing.Point(81, 0);
+            this.Save_Btn.Location = new System.Drawing.Point(380, 201);
             this.Save_Btn.Name = "Save_Btn";
-            this.Save_Btn.Size = new System.Drawing.Size(75, 23);
+            this.Save_Btn.Size = new System.Drawing.Size(134, 56);
             this.Save_Btn.TabIndex = 2;
             this.Save_Btn.TabStop = false;
             this.Save_Btn.Text = "Save";
@@ -102,9 +161,9 @@ namespace Attempt_1_at_using_pannel
             // 
             // Load_Btn
             // 
-            this.Load_Btn.Location = new System.Drawing.Point(0, 0);
+            this.Load_Btn.Location = new System.Drawing.Point(380, 293);
             this.Load_Btn.Name = "Load_Btn";
-            this.Load_Btn.Size = new System.Drawing.Size(75, 23);
+            this.Load_Btn.Size = new System.Drawing.Size(134, 50);
             this.Load_Btn.TabIndex = 1;
             this.Load_Btn.TabStop = false;
             this.Load_Btn.Text = "Load";
@@ -149,7 +208,12 @@ namespace Attempt_1_at_using_pannel
         private System.Windows.Forms.Button Return_Btn;
         private System.Windows.Forms.Label Fuel_Lbl;
         private System.Windows.Forms.Timer Torch_Tmr;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox PlayerName_TxtBox;
+        private System.Windows.Forms.Button NameSave_Btn;
+        private System.Windows.Forms.Button Extreme_Btn;
+        private System.Windows.Forms.Button Hard_Btn;
+        private System.Windows.Forms.Button Normal_Btn;
+        private System.Windows.Forms.Label Diff_Lbl;
     }
 }
 

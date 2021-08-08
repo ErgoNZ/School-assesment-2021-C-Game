@@ -18,7 +18,7 @@ namespace Attempt_1_at_using_pannel
         Rectangle[] Object = new Rectangle[20];
         Rectangle Player, PlayerCenter, LSide, TSide, BSide, RSide, LightBar, BoundL, BoundR, BoundT, BoundB,Escape;
         string line;
-        int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY, PathX, PathY, RecColour;
+        int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY, RecColour, Difficulty, Level;
         double Fuel = 1.0;
         bool left, right, up, jump;
         int[,] Var = new int[10,2]
@@ -27,8 +27,8 @@ namespace Attempt_1_at_using_pannel
             {1,0},//Py
             {2,0},//MapX
             {3,0},//MapY
-            {4,0},
-            {5,0},
+            {4,0},//Level
+            {5,0},//Difficulty 
             {6,0},
             {7,0},
             {8,0},
@@ -43,18 +43,43 @@ namespace Attempt_1_at_using_pannel
             {0,0,0,0,0},
             {0,0,0,0,0}
         };
+        int[,] Level1 = new int[5, 5]
+        {
+            {5,30,1,0,0},
+            {0,9,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0}
+        };
+        int[,] Level2 = new int[5, 5]
+        {
+            {5,30,1,0,0},
+            {0,9,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0}
+        };
+        int[,] Level3 = new int[5, 5]
+        {
+            {5,30,1,0,0},
+            {0,9,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0}
+        };
+
         //Variables for map generation that doesnt work
-//        int[,] CorrectPath = new int[5, 5]
-//{
-//            {0,0,0,0,0},
-//            {0,0,0,0,0},
-//            {0,0,0,0,0},
-//            {0,0,0,0,0},
-//            {0,0,0,0,0}
-//};
-//        int PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir, OriginX, OriginY, CharacterPos;
-//        bool Left, Up, Down, Right;
-//        string PathRepeat = "";
+        //        int[,] CorrectPath = new int[5, 5]
+        //{
+        //            {0,0,0,0,0},
+        //            {0,0,0,0,0},
+        //            {0,0,0,0,0},
+        //            {0,0,0,0,0},
+        //            {0,0,0,0,0}
+        //};
+        //        int PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir, OriginX, OriginY, CharacterPos;
+        //        bool Left, Up, Down, Right;
+        //        string PathRepeat = "";
         public Form1()
         {
             InitializeComponent();
@@ -62,8 +87,11 @@ namespace Attempt_1_at_using_pannel
             Framerate.Enabled = false;
             Ymovement = -5;
             Xmovement = 0;
-            Py = 300;
-            Px = 500;
+            Level = 1;
+            Py = 120;
+            Px = 415;
+            PlayerMap = Level1;
+            Fuel_Lbl.Hide();
             //GenLvl(); this doesnt work :(
             MapShift();
             BoundB = new Rectangle(0,Game_Pnl.Bottom,Game_Pnl.Width, 5);
@@ -125,6 +153,28 @@ namespace Attempt_1_at_using_pannel
             // System.Windows.Forms.MessageBox.Show(counter + "");
 
         }
+        private void Extreme_Btn_Click(object sender, EventArgs e)
+        {
+            Diff_Lbl.Text = "Difficulty:Extreme";
+            Difficulty = 3;
+        }
+
+        private void Hard_Btn_Click(object sender, EventArgs e)
+        {
+            Diff_Lbl.Text = "Difficulty:Hard";
+            Difficulty = 2;
+        }
+
+        private void Normal_Btn_Click(object sender, EventArgs e)
+        {
+            Diff_Lbl.Text = "Difficulty:Normal";
+            Difficulty = 1;
+        }
+
+        private void NameSave_Btn_Click(object sender, EventArgs e)
+        {
+            PlayerName_TxtBox.Enabled = false;
+        }
         private void Return_Btn_Click(object sender, EventArgs e)
         {
             Load_Btn.Enabled = false;
@@ -135,6 +185,17 @@ namespace Attempt_1_at_using_pannel
             Save_Btn.Visible = false;
             Framerate.Enabled = true;
             Torch_Tmr.Enabled = true;
+            NameSave_Btn.Visible = false;
+            NameSave_Btn.Enabled = false;
+            Normal_Btn.Visible = false;
+            Normal_Btn.Enabled = false;
+            Hard_Btn.Visible = false;
+            Hard_Btn.Enabled = false;
+            Extreme_Btn.Visible = false;
+            Extreme_Btn.Enabled = false;
+            PlayerName_TxtBox.Enabled = false;
+            Diff_Lbl.Visible = false;
+            Fuel_Lbl.Show();
         }
         private void Framerate_Tick(object sender, EventArgs e)
         {
@@ -145,7 +206,7 @@ namespace Attempt_1_at_using_pannel
             TSide = new Rectangle(Px+5, Py, 25, 10);//Player Rectangle
             BSide = new Rectangle(Px+5, Py+60, 25, 10);//Player Rectangle
             RSide = new Rectangle(Px+30, Py, 5, 70);//Player Rectangle
-            LightBar = new Rectangle(685,50 ,LightBarLngth, 20);
+            LightBar = new Rectangle(15,50 ,LightBarLngth, 20);
             Game_Pnl.Invalidate();
             for (int i = 1; i < RecColour; i++)
             {
@@ -231,13 +292,7 @@ namespace Attempt_1_at_using_pannel
                     Py = Game_Pnl.Top + 1;
                 }
             }
-           //for (int i = 1; i < RecColour; i++)
-           //{
-           //    if (PlayerCenter.IntersectsWith(UpS[i]) || PlayerCenter.IntersectsWith(Object[i]))
-           //    {
-           //        Ymovement = -10;
-           //    }
-           //}
+
             if (up == true & jump == true)
             {
                 Ymovement = 40;
@@ -248,6 +303,24 @@ namespace Attempt_1_at_using_pannel
             {
                 Ymovement -= 5;
             }
+            if(PlayerCenter.IntersectsWith(Escape))
+            {
+                Level++;
+                if (Level == 2)
+                {
+                    PlayerMap = Level2;
+                    MapX = 0;
+                    MapY = 0;
+                    MapShift();
+                }
+                if (Level == 3)
+                {
+                    PlayerMap = Level3;
+                    MapX = 0;
+                    MapY = 0;
+                    MapShift();
+                }
+            }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
             Game_Pnl.Invalidate();
@@ -255,6 +328,7 @@ namespace Attempt_1_at_using_pannel
         private void MapShift()
         {
             Debug.WriteLine(MapY, MapX + "");
+            Escape = Rectangle.Empty;
             for (int O = 0; O<RecColour; O++)
             {
                 Object[O] = Rectangle.Empty;
@@ -609,6 +683,24 @@ namespace Attempt_1_at_using_pannel
                 Object[11] = new Rectangle(145, 460, 35, 50); // box on ground left
                 Object[12] = new Rectangle(795, 460, 35, 50); // box on ground right
             }
+            //Exit room
+            if (PlayerMap[MapY, MapX] == 30)
+            {//X,Y,Width,height
+                RecColour = 13;
+                Object[1] = new Rectangle(0, 0, 225, 100); //Left roof
+                Object[2] = new Rectangle(0, 510, 225, 50); // Left floor
+                Object[3] = new Rectangle(750, 0, 300, 100); // right wall
+                Object[4] = new Rectangle(750, 510, 300, 100); // right floor
+                Object[5] = new Rectangle(220, 320, 120, 50); //Floating box 1
+                Object[6] = new Rectangle(630, 320, 120, 50); //Floating box 2
+                Object[7] = new Rectangle(415, 210, 150, 50); //Floating box 3
+                Object[8] = new Rectangle(220, 110, 120, 50); //Floating box 4
+                Object[9] = new Rectangle(630, 110, 120, 50); //Floating box 5
+                Object[10] = new Rectangle(415, 410, 150, 50); // floating box 6
+                Object[11] = new Rectangle(145, 460, 35, 50); // box on ground left
+                Object[12] = new Rectangle(795, 460, 35, 50); // box on ground right
+                Escape = new Rectangle(440, 310, 50, 100); //Exit
+            }
             //Creates hitboxes for each object on screen
             for (int O = 1; O <= RecColour; O++)
             {
@@ -906,9 +998,21 @@ namespace Attempt_1_at_using_pannel
 
             //This checks that the fuel is between 0 and 1 and if it is not fuel is set to 0
             //This also changes the shift of the vision circle by running a calulation based of the fuel value
+            // This is also based off difficulty level
             if(Fuel >= 0 & Fuel <= 1)
             {
-                Fuel -= 0.01;
+                if (Difficulty == 1)
+                {
+                    Fuel -= 0.01;
+                }
+                if (Difficulty == 2)
+                {
+                    Fuel -= 0.02;
+                }
+                if (Difficulty == 3)
+                {
+                    Fuel -= 0.04;
+                }
                 Xshift = (int)((1-Fuel)*100 + 2);
             } 
             else
@@ -968,7 +1072,6 @@ namespace Attempt_1_at_using_pannel
             {
                 e.Graphics.FillRectangle(Brushes.Black, Object[i]);
             }          
-            e.Graphics.FillRectangle(Brushes.White, Escape);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
             if (Fuel <= 1 & Fuel >=0.6)
@@ -985,8 +1088,9 @@ namespace Attempt_1_at_using_pannel
                 path.AddEllipse(Px - 110 + Xshift, Py - 30, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
             }
             rgn.Exclude(path);
-            //e.Graphics.FillRegion(Brushes.Black, rgn);
+            e.Graphics.FillRegion(Brushes.Black, rgn);
             e.Graphics.FillRectangle(Brushes.OrangeRed, LightBar);
+            e.Graphics.FillRectangle(Brushes.White, Escape);
         }
     }
 }
