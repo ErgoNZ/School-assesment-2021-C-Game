@@ -1,13 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Data;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Drawing.Drawing2D;
@@ -43,8 +37,8 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] PlayerMap = new int[5, 5]
         {
-            {14,9,0,0,0},
-            {10,0,0,0,0},
+            {6,2,0,0,0},
+            {22,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0}
@@ -353,7 +347,7 @@ namespace Attempt_1_at_using_pannel
                 Object[4] = new Rectangle(345, 390, 80, 150); // box 1 on floor
                 Object[5] = new Rectangle(534, 0, 25, 300); //box 1 coming out of roof   
                 Object[6] = new Rectangle(265, 0, 35, 150); //box 2 coming out of roof
-                Object[7] = new Rectangle(735, 0, 15, 270); //box 1 coming out of roof 
+                Object[7] = new Rectangle(735, 0, 15, 270); //box 3 coming out of roof 
             }
             //Down exit/enterance X4
             if (PlayerMap[MapY, MapX] == 9)
@@ -371,7 +365,7 @@ namespace Attempt_1_at_using_pannel
             }
             if (PlayerMap[MapY, MapX] == 10)
             {//X,Y,Width,height
-                RecColour = 9;
+                RecColour = 10;
                 Object[1] = new Rectangle(0, 10, 225, 600); // left wall
                 Object[2] = new Rectangle(0, 540, 1000, 50); // ground
                 Object[3] = new Rectangle(750, 10, 300, 600); // right wall
@@ -380,6 +374,7 @@ namespace Attempt_1_at_using_pannel
                 Object[6] = new Rectangle(415, 210, 150, 50); // floating box 2
                 Object[7] = new Rectangle(630, 110, 120, 50); // box 2 on wall
                 Object[8] = new Rectangle(630, 500, 120, 50); // box 1 on floor
+                Object[9] = new Rectangle(210, 110, 120, 50); // box 2 on wall
             }
             //Up exit/enterance X4
             if (PlayerMap[MapY, MapX] == 11)
@@ -418,19 +413,113 @@ namespace Attempt_1_at_using_pannel
                 RecColour = 8;
                 Object[1] = new Rectangle(0, 0, 225, 100); // left wall
                 Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
-                Object[3] = new Rectangle(750, 10, 300, 600); // right wall
+                Object[3] = new Rectangle(750, 0, 300, 600); // right wall
+                Object[4] = new Rectangle(430, 210, 150, 50); // floating box 1
+                Object[5] = new Rectangle(430, 410, 150, 50); // ground box 1
+                Object[6] = new Rectangle(630, 310, 120, 50); // box 1 on wall
+                Object[7] = new Rectangle(630, 110, 120, 50); // box 2 on wall
             }
             //Left Down
-
+            if (PlayerMap[MapY, MapX] == 15)
+            {//X,Y,Width,height
+                RecColour = 4;
+                Object[1] = new Rectangle(0, 0, 750, 100); // left wall
+                Object[2] = new Rectangle(0, 510, 225, 50); // this is the ground
+                Object[3] = new Rectangle(750, 0, 300, 600); // right wall
+            }
+            if (PlayerMap[MapY, MapX] == 16)
+            {//X,Y,Width,height
+                RecColour = 7;
+                Object[1] = new Rectangle(0, 0, 750, 100); // left wall
+                Object[2] = new Rectangle(0, 510, 225, 50); // this is the ground
+                Object[3] = new Rectangle(750, 0, 300, 600); // right wall
+                Object[4] = new Rectangle(534, 100, 25, 300); //box 1 coming out of roof   
+                Object[5] = new Rectangle(265, 100, 20, 150); //box 2 coming out of roof
+                Object[6] = new Rectangle(135, 100, 15, 270); //box 3 coming out of roof 
+            }
             //Right Up
-
+            if (PlayerMap[MapY, MapX] == 17)
+            {//X,Y,Width,height
+                RecColour = 9;
+                Object[1] = new Rectangle(0, 0, 225, 600); // left wall
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(750, 0, 300, 160); // right wall
+                Object[4] = new Rectangle(630, 310, 120, 50); // box 1 on wall
+                Object[5] = new Rectangle(500, 440, 80, 100); // box 1 on floor
+                Object[6] = new Rectangle(430, 210, 150, 50); // floating box 1
+                Object[7] = new Rectangle(230, 110, 150, 50); // floating box 2
+                Object[8] = new Rectangle(630, 110, 120, 50); // box 2 on wall
+            }
+            if (PlayerMap[MapY, MapX] == 18)
+            {//X,Y,Width,height
+                RecColour = 9;
+                Object[1] = new Rectangle(0, 0, 225, 600); // left wall
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(750, 0, 300, 160); // right wall
+                Object[4] = new Rectangle(570, 330, 120, 100); // floating box 1
+                Object[5] = new Rectangle(650, 400, 80, 30); // floating box 1
+                Object[6] = new Rectangle(430, 210, 150, 50); // floating box 2
+                Object[7] = new Rectangle(230, 110, 150, 50); // box 1 on wall
+                Object[8] = new Rectangle(630, 110, 120, 50); // box 2 on wall
+            }
             //Right Down
-
-            //T-Rooms
-
+            if (PlayerMap[MapY, MapX] == 19)
+            {//X,Y,Width,height
+                RecColour = 6;
+                Object[1] = new Rectangle(0, 0, 225, 600); // left wall
+                Object[2] = new Rectangle(0, 0, 1000, 160); // right wall
+                Object[3] = new Rectangle(750, 510, 300, 160); // ground 
+                Object[4] = new Rectangle(434, 100, 25, 300); //box 1 coming out of roof   
+                Object[5] = new Rectangle(635, 100, 15, 270); //box 2 coming out of roof 
+            }
+            if (PlayerMap[MapY, MapX] == 20)
+            {//X,Y,Width,height
+                RecColour = 4;
+                Object[1] = new Rectangle(0, 0, 225, 600); // left wall
+                Object[2] = new Rectangle(0, 0, 1000, 160); // right wall
+                Object[3] = new Rectangle(750, 510, 300, 160); // ground 
+            }
             //Hallway rooms
             //Up Down
+            if (PlayerMap[MapY, MapX] == 21)
+            {//X,Y,Width,height
+                RecColour = 11;
+                Object[1] = new Rectangle(0, 10, 225, 600); // left wall
+                Object[2] = new Rectangle(750, 10, 300, 600); // right wall
+                Object[3] = new Rectangle(220, 320, 120, 50); // box 1 on wall
+                Object[4] = new Rectangle(630, 320, 120, 50); // box 2 on wall
+                Object[5] = new Rectangle(415, 210, 150, 50); // floating box 1
+                Object[6] = new Rectangle(220, 110, 120, 50); // box 3 on wall
+                Object[7] = new Rectangle(630, 110, 120, 50); // box 4 on wall
+                Object[8] = new Rectangle(415, 410, 150, 50); // floating box 2
+                Object[9] = new Rectangle(220, 510, 120, 50); // box 5 on wall
+                Object[10] = new Rectangle(630, 510, 120, 50); // box 6 on wall
+            }
+            if (PlayerMap[MapY, MapX] == 22)
+            {//X,Y,Width,height
+                RecColour = 11;
+                Object[1] = new Rectangle(0, 10, 225, 600); // left wall
+                Object[2] = new Rectangle(750, 10, 300, 600); // right wall
+                Object[4] = new Rectangle(630, 320, 120, 50); // box 2 on wall
+                Object[5] = new Rectangle(415, 210, 150, 50); // floating box 1
+                Object[6] = new Rectangle(220, 110, 120, 50); // box 3 on wall
+                Object[8] = new Rectangle(415, 410, 150, 50); // floating box 2
+                Object[10] = new Rectangle(630, 510, 120, 50); // box 6 on wall
+            }
             //Left,Right
+            if (PlayerMap[MapY, MapX] == 23)
+            {//X,Y,Width,height
+                RecColour = 4;
+                Object[1] = new Rectangle(0, 0, 1000, 50); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+            }
+            if (PlayerMap[MapY, MapX] == 24)
+            {//X,Y,Width,height
+                RecColour = 4;
+                Object[1] = new Rectangle(0, 0, 1000, 50); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+            }
+            //T-Rooms
 
             //Plus-Shape rooms X1
 
