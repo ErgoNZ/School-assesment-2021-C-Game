@@ -16,7 +16,7 @@ namespace Attempt_1_at_using_pannel
         Rectangle[] LeftS = new Rectangle[20];
         Rectangle[] RightS = new Rectangle[20];
         Rectangle[] Object = new Rectangle[20];
-        Rectangle Player, PlayerCenter, LSide, TSide, BSide, RSide, LightBar, Stick, boundL, boundR, boundT, boundB;
+        Rectangle Player, PlayerCenter, LSide, TSide, BSide, RSide, LightBar, BoundL, BoundR, BoundT, BoundB,Escape;
         string line;
         int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY, PathX, PathY, RecColour;
         double Fuel = 1.0;
@@ -37,12 +37,24 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] PlayerMap = new int[5, 5]
         {
-            {6,2,0,0,0},
-            {22,0,0,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0}
         };
+        //Variables for map generation that doesnt work
+//        int[,] CorrectPath = new int[5, 5]
+//{
+//            {0,0,0,0,0},
+//            {0,0,0,0,0},
+//            {0,0,0,0,0},
+//            {0,0,0,0,0},
+//            {0,0,0,0,0}
+//};
+//        int PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir, OriginX, OriginY, CharacterPos;
+//        bool Left, Up, Down, Right;
+//        string PathRepeat = "";
         public Form1()
         {
             InitializeComponent();
@@ -52,11 +64,12 @@ namespace Attempt_1_at_using_pannel
             Xmovement = 0;
             Py = 300;
             Px = 500;
+            //GenLvl(); this doesnt work :(
             MapShift();
-            boundB = new Rectangle(0,Game_Pnl.Bottom,Game_Pnl.Width, 5);
-            boundL = new Rectangle(0, 0, 5, Game_Pnl.Height);
-            boundR = new Rectangle(Game_Pnl.Right-5, 0, 5, Game_Pnl.Height);
-            boundT = new Rectangle(0, Game_Pnl.Top, Game_Pnl.Width, 5);
+            BoundB = new Rectangle(0,Game_Pnl.Bottom,Game_Pnl.Width, 5);
+            BoundL = new Rectangle(0, 0, 5, Game_Pnl.Height);
+            BoundR = new Rectangle(Game_Pnl.Right-5, 0, 5, Game_Pnl.Height);
+            BoundT = new Rectangle(0, Game_Pnl.Top, Game_Pnl.Width, 5);
         }
 
         private void Save_Btn_Click(object sender, EventArgs e)
@@ -177,17 +190,8 @@ namespace Attempt_1_at_using_pannel
                     Py = DownS[i].Bottom + 7;
                 }
             }
-             if(Player.IntersectsWith(Stick))
-            {
-                Fuel = Fuel + 0.15;
-                Stick = Rectangle.Empty;
-                if (Fuel >= 1)
-                {
-                    Fuel = 1;
-                }
-            }
 
-             if(Player.IntersectsWith(boundL) & left == true)
+             if(Player.IntersectsWith(BoundL) & left == true)
             {
                 if(MapX >= 1)
                 {
@@ -197,7 +201,7 @@ namespace Attempt_1_at_using_pannel
                 }
             }
 
-            if (Player.IntersectsWith(boundR) & right == true)
+            if (Player.IntersectsWith(BoundR) & right == true)
             {
                 if (MapX <= 3)
                 {
@@ -207,7 +211,7 @@ namespace Attempt_1_at_using_pannel
                 }
             }
 
-            if (Player.IntersectsWith(boundT) & jump == false)
+            if (Player.IntersectsWith(BoundT) & jump == false)
             {
                 if (MapY >= 1)
                 {
@@ -218,7 +222,7 @@ namespace Attempt_1_at_using_pannel
                 }
             }
 
-            if (Player.IntersectsWith(boundB))
+            if (Player.IntersectsWith(BoundB))
             {
                 if (MapY <= 3)
                 {                    
@@ -249,8 +253,9 @@ namespace Attempt_1_at_using_pannel
             Game_Pnl.Invalidate();
         }
         private void MapShift()
-        {          
-            for (int O = 1; O<RecColour; O++)
+        {
+            Debug.WriteLine(MapY, MapX + "");
+            for (int O = 0; O<RecColour; O++)
             {
                 Object[O] = Rectangle.Empty;
                 UpS[O] = Rectangle.Empty;
@@ -503,6 +508,7 @@ namespace Attempt_1_at_using_pannel
                 Object[4] = new Rectangle(630, 320, 120, 50); // box 2 on wall
                 Object[5] = new Rectangle(415, 210, 150, 50); // floating box 1
                 Object[6] = new Rectangle(220, 110, 120, 50); // box 3 on wall
+                Object[7] = new Rectangle(630, 110, 120, 50); // box 3 on wall
                 Object[8] = new Rectangle(415, 410, 150, 50); // floating box 2
                 Object[10] = new Rectangle(630, 510, 120, 50); // box 6 on wall
             }
@@ -515,14 +521,94 @@ namespace Attempt_1_at_using_pannel
             }
             if (PlayerMap[MapY, MapX] == 24)
             {//X,Y,Width,height
-                RecColour = 4;
+                RecColour = 11;
                 Object[1] = new Rectangle(0, 0, 1000, 50); //this is a roof
                 Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(465, 0, 35, 150); //box coming out of roof
+                Object[4] = new Rectangle(250, 0, 25, 185); //box 2 coming out of roof
+                Object[5] = new Rectangle(165, 0, 35, 150); //box 3 coming out of roof
+                Object[6] = new Rectangle(650, 0, 25, 185); //box 4 coming out of roof
+                Object[7] = new Rectangle(285, 410, 30, 100); // box 1 on floor
+                Object[8] = new Rectangle(465, 380, 35, 130); // box 2 on floor
+                Object[9] = new Rectangle(635, 390, 40, 150); // box 3 on floor
+                Object[10] = new Rectangle(385, 350, 35, 160); // box 4 on floor
             }
             //T-Rooms
-
+            //left right up
+            if (PlayerMap[MapY, MapX] == 25)
+            {//X,Y,Width,height
+                RecColour = 10;
+                Object[1] = new Rectangle(0, 0, 225, 100); //this is a roof
+                Object[2] = new Rectangle(0, 510, 1000, 50); // this is the ground
+                Object[3] = new Rectangle(750, 0, 300, 100); // right wall
+                Object[4] = new Rectangle(220, 320, 120, 50); //Floating box 1
+                Object[5] = new Rectangle(630, 320, 120, 50); //Floating box 2
+                Object[6] = new Rectangle(415, 210, 150, 50); //Floating box 3
+                Object[7] = new Rectangle(220, 110, 120, 50); //Floating box 4
+                Object[8] = new Rectangle(630, 110, 120, 50); //Floating box 5
+                Object[9] = new Rectangle(415, 410, 150, 50); // floating box 6
+            }
+            //left right down
+            if (PlayerMap[MapY, MapX] == 26)
+            {//X,Y,Width,height
+                RecColour = 8;
+                Object[1] = new Rectangle(0, 0, 1000, 100); //this is a roof
+                Object[2] = new Rectangle(0, 510, 225, 50); // Left ground
+                Object[3] = new Rectangle(750, 0, 300, 100); // right wall
+                Object[4] = new Rectangle(750, 510, 300, 50); // Right ground
+                Object[5] = new Rectangle(225, 350, 500, 50); // floating platform
+                Object[6] = new Rectangle(145, 460, 35, 50); // box on ground left
+                Object[7] = new Rectangle(795, 460, 35, 50); // box on ground right
+            }
+            //left down up
+            if (PlayerMap[MapY, MapX] == 27)
+            {//X,Y,Width,height
+                RecColour = 12;
+                Object[1] = new Rectangle(0, 0, 225, 100); //this is a roof
+                Object[2] = new Rectangle(0, 510, 225, 50); // Left ground
+                Object[3] = new Rectangle(750, 0, 300, 100); // right wall
+                Object[4] = new Rectangle(750, 0, 300, 1000); // right wall
+                Object[5] = new Rectangle(220, 320, 120, 50); //Floating box 1
+                Object[6] = new Rectangle(630, 320, 120, 50); //Floating box 2
+                Object[7] = new Rectangle(415, 210, 150, 50); //Floating box 3
+                Object[8] = new Rectangle(220, 110, 120, 50); //Floating box 4
+                Object[9] = new Rectangle(630, 110, 120, 50); //Floating box 5
+                Object[10] = new Rectangle(415, 410, 150, 50); // floating box 6
+                Object[11] = new Rectangle(145, 460, 35, 50); // box on ground left
+            }
+            //right down up
+            if (PlayerMap[MapY, MapX] == 28)
+            {//X,Y,Width,height
+                RecColour = 12;
+                Object[1] = new Rectangle(0, 0, 225, 100); //this is a roof
+                Object[2] = new Rectangle(0, 0, 225, 1000); // left wall
+                Object[3] = new Rectangle(750, 0, 300, 50); // right roof
+                Object[4] = new Rectangle(750, 510, 300, 50); // ground right
+                Object[5] = new Rectangle(220, 320, 120, 50); //Floating box 1
+                Object[6] = new Rectangle(630, 320, 120, 50); //Floating box 2
+                Object[7] = new Rectangle(415, 210, 150, 50); //Floating box 3
+                Object[8] = new Rectangle(220, 110, 120, 50); //Floating box 4
+                Object[9] = new Rectangle(630, 110, 120, 50); //Floating box 5
+                Object[10] = new Rectangle(415, 410, 150, 50); // floating box 6
+                Object[11] = new Rectangle(820, 460, 35, 50); // box on ground right
+            }
             //Plus-Shape rooms X1
-
+            if (PlayerMap[MapY, MapX] == 29)
+            {//X,Y,Width,height
+                RecColour = 13;
+                Object[1] = new Rectangle(0, 0, 225, 100); //Left roof
+                Object[2] = new Rectangle(0, 510, 225, 50); // Left floor
+                Object[3] = new Rectangle(750, 0, 300, 100); // right wall
+                Object[4] = new Rectangle(750, 510, 300, 100); // right floor
+                Object[5] = new Rectangle(220, 320, 120, 50); //Floating box 1
+                Object[6] = new Rectangle(630, 320, 120, 50); //Floating box 2
+                Object[7] = new Rectangle(415, 210, 150, 50); //Floating box 3
+                Object[8] = new Rectangle(220, 110, 120, 50); //Floating box 4
+                Object[9] = new Rectangle(630, 110, 120, 50); //Floating box 5
+                Object[10] = new Rectangle(415, 410, 150, 50); // floating box 6
+                Object[11] = new Rectangle(145, 460, 35, 50); // box on ground left
+                Object[12] = new Rectangle(795, 460, 35, 50); // box on ground right
+            }
             //Creates hitboxes for each object on screen
             for (int O = 1; O <= RecColour; O++)
             {
@@ -534,260 +620,292 @@ namespace Attempt_1_at_using_pannel
         }
         
         // Random level generation
-        public void GenLvl()
-        {
-            int[,] CorrectPath = new int[5, 5]
-{
-            {0,0,0,0,0},
-            {0,0,0,0,0},
-            {0,0,0,0,0},
-            {0,0,0,0,0},
-            {0,0,0,0,0}
-};
-            int PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir, OriginX, OriginY;
-            bool Left,Up,Down,Right;
-            string PathRepeat = "";
-            Random R = new System.Random();
-            PathX = R.Next(0, 5);
-            PathY = R.Next(0, 5);
-            OriginX = PathX;
-            OriginY = PathY;
-            MapX = PathX;
-            MapY = PathY;
-            MapShift();
-            label1.Text = MapX +","+ MapY;
-            PathLength = R.Next(7,9);
-            CurrentLength = 0;
-            Yarrmin = 0;
-            Yarrmax = 4;
-            Xarrmin = 0;
-            Xarrmax = 4;
-            CorrectPath[PathY, PathX] = 1;
-            while (CurrentLength < PathLength)
-            {
-                //1 means up PathY--
-                //2 means right PathX++
-                //3 means down PathY++
-                //4 means left PathX--
-             Nextdir = R.Next(1, 5);
-                if (Nextdir == 1)
-                {
-                    PathY--;
-                    if (PathY < Yarrmin || CorrectPath[PathY, PathX] == 1)
-                    {
-                        PathY++;
-                    }      
-                    else if (CorrectPath[PathY, PathX] == 0)
-                    {
-                        PathRepeat = PathRepeat + "U";
-                    }
-                }
-                else if (Nextdir == 2)
-                {
-                    PathX++;
-                    if (PathX > Xarrmax || CorrectPath[PathY, PathX] == 1)
-                    {
-                        PathX--;
-                    }
-                    else if (CorrectPath[PathY, PathX] == 0)
-                    {
-                        PathRepeat = PathRepeat + "R";
-                    }
-                }
-                else if (Nextdir == 3)
-                {
-                    PathY++;
-                    if (PathY > Yarrmax || CorrectPath[PathY, PathX] == 1)
-                    {
-                        PathY--;
-                    }
-                    else if (CorrectPath[PathY, PathX] == 0)
-                    {
-                        PathRepeat = PathRepeat + "D";
-                    }
-                }
-                else if (Nextdir == 4)
-                {
-                    PathX--;                  
-                    if (PathX < Xarrmin || CorrectPath[PathY, PathX] == 1)
-                    {
-                        PathX++;
-                    }
-                    else if (CorrectPath[PathY, PathX] == 0)
-                    {
-                        PathRepeat = PathRepeat + "L";
-                    }
-                }
-                if (CorrectPath[PathY, PathX] == 0)
-                {
-                    Down = false;
-                    Up = false;
-                    Left = false;
-                    Right = false;
-                    CorrectPath[PathY, PathX] = 1;
-                    CurrentLength++;
-                    if (CurrentLength == PathLength)
-                    {
-                        PathX = OriginX;
-                        PathY = OriginY;
-                        for (int i = 1; i <= CurrentLength; i++)
-                        {
-                            try
-                            {
-                                if (CorrectPath[PathY + 1, PathX] == 1)
-                                {
-                                    Down = true;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                Down = false;
-                            }
-                            try
-                            {
-                                if (CorrectPath[PathY - 1, PathX] == 1)
-                                {
-                                    Up = true;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                Up = false;
-                            }
-                            try
-                            {
-                                if (CorrectPath[PathY, PathX + 1] == 1)
-                                {
-                                    Right = true;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                Right = false;
-                            }
-                            try
-                            {
-                                if (CorrectPath[PathY, PathX - 1] == 1)
-                                {
-                                    Left = true;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                Left = false;
-                            }
-
-                            //RANDOM GENERATION CHECK FOR PICKING MAP TITLES
-                            //TOTAL MAP TILES IF CHECKING FOR EACH POSSIBLE COMBINATION: 60
-                            //SINGLE DIRECTION CHECK
-                            if (Left == true && Right == false && Up == false && Down == false)//Map tile 1-4 done
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Right == true && Left == false && Up == false && Down == false)//Map tile 5-8 done
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Down == true && Right == false && Up == false && Left == false)//Map tile 9-12 done
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Up == true && Right == false && Left == false && Down == false)//Map tile 13-16 done
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            //DUAL DIRECTION CHECK
-                            if (Left == true && Right == true && Up == false && Down == false)//Map tile  17-20
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Left == true && Up == true && Up == false && Down == false)//Map tile 21-24
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Left == true && Down == true && Up == false && Right == false)//Map tile 25-28
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Right == true && Up == true && Left == false && Down == false)//Map tile 29-32
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Right == true && Down == true && Up == false && Left == false)//Map tile 33-36
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Up == true && Down == true && Left == false && Right == false)//Map tile 37-40
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-                            //TRIPLE DIRECTION CHECK
-                            if (Left == true && Right == true && Up == true && Down == false)//Map tile 41-44
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Left == true && Right == true && Down == true && Up == false)//Map tile 45-48
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Left == true && Down == true && Up == true && Right == false)//Map tile 49-52
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            if (Right == true && Down == true && Up == true && Left == false)//Map tile 53-56
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-
-                            //QUAD DIRECTION CHECK
-                            if (Left == true && Right == true && Up == true && Down == true)//Map tile 57-60
-                            {
-                                PlayerMap[PathY, PathX] = R.Next(0, 4);
-                            }
-                            //U means up PathY--
-                            //R means right PathX++
-                            //D means down PathY++
-                            //L means left PathX--
-                            if ( PathRepeat.Substring(0,i) == "L")
-                            {
-                                PathX--;
-                            }
-                            else if (PathRepeat.Substring(0, i) == "D")
-                            {
-                                PathY++;
-                            }
-                            else if (PathRepeat.Substring(0, i) == "R")
-                            {
-                                PathX++;
-                            }
-                            else if (PathRepeat.Substring(0, i) == "U")
-                            {
-                                PathY--;
-                            }
-                        }
-                    }
-                }
-                //write and write line dont work for some reason...   so debug is used here instead          
-                Debug.AutoFlush = true;
-                Debug.Indent();
-                Debug.WriteLine(PathY, PathX + PathRepeat +"," + CurrentLength );
-                Debug.Unindent();
-            }
-        }
+        // this didnt end up working :(
+        //
+        //public void GenLvl()
+      // {
+      //     Random R = new System.Random();
+      //     PathX = 0;
+      //     PathY = 0;
+      //     OriginX = PathX;
+      //     OriginY = PathY;
+      //     MapX = PathX;
+      //     MapY = PathY;
+      //     MapShift();
+      //     label1.Text = MapX +","+ MapY;
+      //     PathLength = R.Next(7,9);
+      //     CurrentLength = 0;
+      //     Yarrmin = 0;
+      //     Yarrmax = 4;
+      //     Xarrmin = 0;
+      //     CharacterPos = 0;
+      //     Down = false;
+      //     Up = false;
+      //     Left = false;
+      //     Right = false;
+      //     Xarrmax = 4;
+      //     CorrectPath[PathY, PathX] = 1;
+      //     while (CurrentLength <= PathLength)
+      //     {
+      //         //1 means up PathY--
+      //         //2 means right PathX++
+      //         //3 means down PathY++
+      //         //4 means left PathX--
+      //      Nextdir = R.Next(1, 5);
+      //         if (Nextdir == 1)
+      //         {
+      //             PathY--;
+      //             if (PathY < Yarrmin || CorrectPath[PathY, PathX] == 1)
+      //             {
+      //                 PathY++;
+      //             }      
+      //             if (CorrectPath[PathY, PathX] == 0)
+      //             {
+      //                 PathRepeat = PathRepeat + "U";
+      //             }
+      //         }
+      //         if (Nextdir == 2)
+      //          {
+      //              PathX++;
+      //              if (PathX > Xarrmax || CorrectPath[PathY, PathX] == 1)
+      //              {
+      //                  PathX--;
+      //              }
+      //              if (CorrectPath[PathY, PathX] == 0)
+      //              {
+      //                  PathRepeat = PathRepeat + "R";
+      //              }
+      //          }
+      ////         if (Nextdir == 3)
+      //          {
+      //              PathY++;
+      //              if (PathY > Yarrmax || CorrectPath[PathY, PathX] == 1)
+      //              {
+      //                  PathY--;
+      //              }
+      //              if (CorrectPath[PathY, PathX] == 0)
+      //              {
+      //                  PathRepeat = PathRepeat + "D";
+      //              }
+      //          }
+      ////         if (Nextdir == 4)
+      //          {
+      //              PathX--;                  
+      //              if (PathX < Xarrmin || CorrectPath[PathY, PathX] == 1)
+      //              {
+      //                  PathX++;
+      //              }
+      //              else if (CorrectPath[PathY, PathX] == 0)
+      //              {
+      //                  PathRepeat = PathRepeat + "L";
+      //              }
+      //          }
+      //         if (CorrectPath[PathY, PathX] == 0)
+      //         {
+      //             CorrectPath[PathY, PathX] = 1;
+      //             CurrentLength++;
+      //         }
+      //         if (CurrentLength == PathLength)
+      //         {
+      //             PathX = OriginX;
+      //             PathY = OriginY;
+      //             while (CharacterPos<PathLength -1)
+      //             {
+      //                 try
+      //                 {
+      //                     if (CorrectPath[PathY + 1, PathX] == 1)
+      //                     {
+      //                         Down = true;
+      //                     }
+      //                 }
+      //                 catch (Exception)
+      //                 {
+      //                     Down = false;
+      //                 }
+      //                 try
+      //                 {
+      //                     if (CorrectPath[PathY - 1, PathX] == 1)
+      //                     {
+      //                         Up = true;
+      //                     }
+      //                 }
+      //                 catch (Exception)
+      //                 {
+      //                     Up = false;
+      //                 }
+      //                 try
+      //                 {
+      //                     if (CorrectPath[PathY, PathX + 1] == 1)
+      //                     {
+      //                         Right = true;
+      //                     }
+      //                 }
+      //                 catch (Exception)
+      //                 {
+      //                     Right = false;
+      //                 }
+      //                 try
+      //                 {
+      //                     if (CorrectPath[PathY, PathX - 1] == 1)
+      //                     {
+      //                         Left = true;
+      //                     }
+      //                 }
+      //                 catch (Exception)
+      //                 {
+      //                     Left = false;
+      //                 }
+      //
+      //                 //RANDOM GENERATION CHECK FOR PICKING MAP TITLES
+      //                 //TOTAL MAP TILES IF CHECKING FOR EACH POSSIBLE COMBINATION: 29
+      //                 //SINGLE DIRECTION CHECK
+      //                 if (Left == true && Right == false && Up == false && Down == false)//Map tile 1-4 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(1, 5);
+      //                 }
+      //
+      //                 if (Right == true && Left == false && Up == false && Down == false)//Map tile 5-8 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(5, 9);
+      //                 }
+      //
+      //                 if (Down == true && Right == false && Up == false && Left == false)//Map tile 9-10 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(11, 13);
+      //                 }
+      //
+      //                 if (Up == true && Right == false && Left == false && Down == false)//Map tile 11-12 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(13, 15);
+      //                 }
+      //
+      //                 //DUAL DIRECTION CHECK
+      //                 if (Left == true && Right == true && Up == false && Down == false)//Map tile  13-14 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(23, 24);
+      //                 }
+      //
+      //                 if (Left == true && Up == true && Up == false && Down == false)//Map tile 15-16 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(13, 14);
+      //                 }
+      //
+      //                 if (Left == true && Down == true && Up == false && Right == false)//Map tile 17-18 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(15, 16);
+      //                 }
+      //
+      //                 if (Right == true && Up == true && Left == false && Down == false)//Map tile 19-20 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(17, 18);
+      //                 }
+      //
+      //                 if (Right == true && Down == true && Up == false && Left == false)//Map tile 21-22 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(19, 20);
+      //                 }
+      //
+      //                 if (Up == true && Down == true && Left == false && Right == false)//Map tile 23-24 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = R.Next(21, 22);
+      //                 }
+      //                 //TRIPLE DIRECTION CHECK
+      //                 if (Left == true && Right == true && Up == true && Down == false)//Map tile 25 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = 25;
+      //                 }
+      //
+      //                 if (Left == true && Right == true && Down == true && Up == false)//Map tile 26 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = 26;
+      //                 }
+      //
+      //                 if (Left == true && Down == true && Up == true && Right == false)//Map tile 27 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = 27;
+      //                 }
+      //
+      //                 if (Right == true && Down == true && Up == true && Left == false)//Map tile 28 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = 28;
+      //                 }
+      //
+      //                 //QUAD DIRECTION CHECK
+      //                 if (Left == true && Right == true && Up == true && Down == true)//Map tile 29 done
+      //                 {
+      //                     PlayerMap[PathY, PathX] = 29;
+      //                 }
+      //                 //U means up PathY--
+      //                 //R means right PathX++
+      //                 //D means down PathY++
+      //                 //L means left PathX--
+      //                 if (PathRepeat.Substring(CharacterPos, 1) == "L")
+      //                 {
+      //                     if (CharacterPos < PathLength - 2)
+      //                     {
+      //                         PathX--;
+      //                     }
+      //                     Debug.WriteLine(PathRepeat.Substring(CharacterPos, 1));
+      //                     Debug.WriteLine(PathY, PathX + "");
+      //                 }
+      //                 if (PathRepeat.Substring(CharacterPos, 1) == "D")
+      //                 {
+      //                     if (CharacterPos < PathLength - 2)
+      //                     {
+      //                         PathY++;
+      //                     }
+      //                     Debug.WriteLine(PathRepeat.Substring(CharacterPos, 1));
+      //                     Debug.WriteLine(PathY, PathX + "");
+      //                 }
+      //                 if (PathRepeat.Substring(CharacterPos, 1) == "R")
+      //                 {
+      //                     if (CharacterPos < PathLength - 2)
+      //                     {
+      //                         PathX++;
+      //                     }
+      //                     Debug.WriteLine(PathRepeat.Substring(CharacterPos, 1));
+      //                     Debug.WriteLine(PathY, PathX + "");
+      //                 }
+      //                 if (PathRepeat.Substring(CharacterPos, 1) == "U")
+      //                 {
+      //                     if (CharacterPos < PathLength - 2)
+      //                     {
+      //                         PathY--;
+      //                     }
+      //                     Debug.WriteLine(PathRepeat.Substring(CharacterPos, 1));
+      //                     Debug.WriteLine(PathY,PathX +"");
+      //                 }
+      //                 Down = false;
+      //                 Up = false;
+      //                 Left = false;
+      //                 Right = false;
+      //                 CharacterPos++;
+      //             }
+      //         }
+      //          //write and write line dont work for some reason...   so debug is used here instead          
+      //          Debug.AutoFlush = true;
+      //          Debug.Indent();
+      //          Debug.WriteLine(PathRepeat);
+      //          //Debug.WriteLine(CurrentLength +","+PathLength + PathRepeat );
+      //          //for (int i = 0; i < Xarrmax; i++)
+      //          //{
+      //          //    for(int o = 0; o < Yarrmax; o++)
+      //          //    {
+      //          //        Debug.WriteLine(CorrectPath[o, i]);
+      //          //    }
+      //          //}
+      //          Debug.Unindent();
+      //      }
+      //  }
+        //End of broken level generation code
+        //End of broken level generation code
+        //End of broken level generation code
+        // Welcome back to the normal working code :)
         private void Torch_Tmr_Tick(object sender, EventArgs e)
         {
+
+            //This checks that the fuel is between 0 and 1 and if it is not fuel is set to 0
+            //This also changes the shift of the vision circle by running a calulation based of the fuel value
             if(Fuel >= 0 & Fuel <= 1)
             {
                 Fuel -= 0.01;
@@ -800,15 +918,35 @@ namespace Attempt_1_at_using_pannel
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Left) { left = true; }
-            if (e.KeyData == Keys.Right) { right = true; }
-            if (e.KeyData == Keys.Up) { up = true; }
+            //key dectection when pressed down
+            if (e.KeyData == Keys.Left) 
+            {
+                left = true; 
+            }
+            if (e.KeyData == Keys.Right) 
+            { 
+                right = true; 
+            }
+            if (e.KeyData == Keys.Up) 
+            { 
+                up = true; 
+            }
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Left) { left = false; }
-            if (e.KeyData == Keys.Right) { right = false; }
-            if (e.KeyData == Keys.Up) { up = false; }
+            //checking when a key is no longer being pressed
+            if (e.KeyData == Keys.Left) 
+            { 
+                left = false; 
+            }
+            if (e.KeyData == Keys.Right) 
+            {
+                right = false; 
+            }
+            if (e.KeyData == Keys.Up) 
+            { 
+                up = false; 
+            }
             if (e.KeyData == Keys.Escape)
             {
                 Load_Btn.Enabled = true;
@@ -824,14 +962,13 @@ namespace Attempt_1_at_using_pannel
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             g = e.Graphics;
-            //use the DrawImage method to draw the spaceship on the panel
-            //use the DrawImage method to draw the planet on the panel
+            //use the FillRectangle method to fill in the objects so the player can see where the platforms are
             e.Graphics.FillRectangle(Brushes.Black, Player);
             for( int i = 1; i<RecColour; i++)
             {
                 e.Graphics.FillRectangle(Brushes.Black, Object[i]);
             }          
-            e.Graphics.FillRectangle(Brushes.BurlyWood, Stick);
+            e.Graphics.FillRectangle(Brushes.White, Escape);
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
             if (Fuel <= 1 & Fuel >=0.6)
