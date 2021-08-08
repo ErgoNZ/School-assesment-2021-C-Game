@@ -16,12 +16,12 @@ namespace Attempt_1_at_using_pannel
         Rectangle[] LeftS = new Rectangle[20];
         Rectangle[] RightS = new Rectangle[20];
         Rectangle[] Object = new Rectangle[20];
-        Rectangle Player, PlayerCenter, LSide, TSide, BSide, RSide, LightBar, BoundL, BoundR, BoundT, BoundB,Escape;
+        Rectangle Player, PlayerCenter, LSide, TSide, BSide, RSide, LightBar, BoundL, BoundR, BoundT, BoundB, Escape;
         string line;
         int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY, RecColour, Difficulty, Level;
         double Fuel = 1.0;
         bool left, right, up, jump, start;
-        int[,] Var = new int[10,2]
+        int[,] Var = new int[10, 2]
         {
             {0,0},//Px
             {1,0},//Py
@@ -61,25 +61,12 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] Level3 = new int[5, 5]
         {
-            {5,30,1,0,0},
-            {0,9,0,0,0},
-            {0,0,0,0,0},
+            {5,26,26,2,0},
+            {0,9,29,0,0},
+            {0,30,25,4,0},
             {0,0,0,0,0},
             {0,0,0,0,0}
         };
-
-        //Variables for map generation that doesnt work
-        //        int[,] CorrectPath = new int[5, 5]
-        //{
-        //            {0,0,0,0,0},
-        //            {0,0,0,0,0},
-        //            {0,0,0,0,0},
-        //            {0,0,0,0,0},
-        //            {0,0,0,0,0}
-        //};
-        //        int PathLength, CurrentLength, Yarrmin, Yarrmax, Xarrmin, Xarrmax, Nextdir, OriginX, OriginY, CharacterPos;
-        //        bool Left, Up, Down, Right;
-        //        string PathRepeat = "";
         public Form1()
         {
             InitializeComponent();
@@ -93,11 +80,12 @@ namespace Attempt_1_at_using_pannel
             PlayerMap = Level1;
             start = false;
             Fuel_Lbl.Hide();
+            MessageBox.Show("Arrow keys to move. You need to escape the cave before your fuel runs out. You can escape by finding the white door at the end of each level.");
             //GenLvl(); this doesnt work :(
             MapShift();
-            BoundB = new Rectangle(0,Game_Pnl.Bottom,Game_Pnl.Width, 5);
+            BoundB = new Rectangle(0, Game_Pnl.Bottom, Game_Pnl.Width, 5);
             BoundL = new Rectangle(0, 0, 5, Game_Pnl.Height);
-            BoundR = new Rectangle(Game_Pnl.Right-5, 0, 5, Game_Pnl.Height);
+            BoundR = new Rectangle(Game_Pnl.Right - 5, 0, 5, Game_Pnl.Height);
             BoundT = new Rectangle(0, Game_Pnl.Top, Game_Pnl.Width, 5);
         }
 
@@ -107,6 +95,8 @@ namespace Attempt_1_at_using_pannel
             Var[1, 1] = Py;
             Var[2, 1] = MapX;
             Var[3, 1] = MapY;
+            Var[4, 1] = Level;
+            Var[5, 1] = Difficulty;
             TextWriter Save = new StreamWriter(Application.StartupPath + @"\Test.txt");
 
             //Writing text to the file.
@@ -115,6 +105,8 @@ namespace Attempt_1_at_using_pannel
             Save.WriteLine(Var[1, 1]);
             Save.WriteLine(Var[2, 1]);
             Save.WriteLine(Var[3, 1]);
+            Save.WriteLine(Var[4, 1]);
+            Save.WriteLine(Var[5, 1]);
             Save.WriteLine(Fuel);
             System.Windows.Forms.MessageBox.Show("File Saved");
 
@@ -147,8 +139,18 @@ namespace Attempt_1_at_using_pannel
             Py = Var[1, 1];
             MapX = Var[2, 1];
             MapY = Var[3, 1];
+            Level = Var[4, 1];
+            Difficulty = Var[5, 1];
             System.Windows.Forms.MessageBox.Show("File Loaded");
             file.Close();
+            if (Level == 2)
+            {
+                PlayerMap = Level2;
+            }
+            if (Level == 3)
+            {
+                PlayerMap = Level3;
+            }
             MapShift();
             // Suspend the screen.  
             // System.Windows.Forms.MessageBox.Show(counter + "");
@@ -204,12 +206,12 @@ namespace Attempt_1_at_using_pannel
         {
             LightBarLngth = (int)Math.Round(100 * Fuel);
             Player = new Rectangle(Px, Py, 35, 70);//Player Rectangle
-            PlayerCenter = new Rectangle(Px+6, Py+10, 22, 40);
+            PlayerCenter = new Rectangle(Px + 6, Py + 10, 22, 40);
             LSide = new Rectangle(Px, Py, 5, 70);//Player Rectangle
-            TSide = new Rectangle(Px+5, Py, 25, 10);//Player Rectangle
-            BSide = new Rectangle(Px+5, Py+60, 25, 10);//Player Rectangle
-            RSide = new Rectangle(Px+30, Py, 5, 70);//Player Rectangle
-            LightBar = new Rectangle(15,50 ,LightBarLngth, 20);
+            TSide = new Rectangle(Px + 5, Py, 25, 10);//Player Rectangle
+            BSide = new Rectangle(Px + 5, Py + 60, 25, 10);//Player Rectangle
+            RSide = new Rectangle(Px + 30, Py, 5, 70);//Player Rectangle
+            LightBar = new Rectangle(15, 50, LightBarLngth, 20);
             Game_Pnl.Invalidate();
             for (int i = 1; i < RecColour; i++)
             {
@@ -219,7 +221,7 @@ namespace Attempt_1_at_using_pannel
                 }
                 else if (left == true & LSide.IntersectsWith(RightS[i]))
                 {
-                    Px = RightS[i].Right+1;
+                    Px = RightS[i].Right + 1;
                 }
                 else
                 {
@@ -234,7 +236,7 @@ namespace Attempt_1_at_using_pannel
                 }
                 else if (right == true & RSide.IntersectsWith(LeftS[i]))
                 {
-                    Px = LeftS[i].Left- 38;
+                    Px = LeftS[i].Left - 38;
                 }
             }
             for (int i = 1; i < RecColour; i++)
@@ -244,7 +246,7 @@ namespace Attempt_1_at_using_pannel
                     Ymovement = 0;
                     Py = UpS[i].Top - 70;
                     jump = true;
-                }                           
+                }
             }
             for (int i = 1; i < RecColour; i++)
             {
@@ -255,16 +257,16 @@ namespace Attempt_1_at_using_pannel
                 }
             }
 
-             if(Player.IntersectsWith(BoundL) & left == true)
+            if (Player.IntersectsWith(BoundL) & left == true)
             {
-                if(MapX >= 1)
+                if (MapX >= 1)
                 {
                     MapX = MapX - 1;
                     MapShift();
                     Px = Game_Pnl.Right;
                 }
             }
-
+            //changing screens
             if (Player.IntersectsWith(BoundR) & right == true)
             {
                 if (MapX <= 3)
@@ -274,22 +276,22 @@ namespace Attempt_1_at_using_pannel
                     Px = Game_Pnl.Left - 10;
                 }
             }
-
+            //changing screens
             if (Player.IntersectsWith(BoundT) & jump == false)
             {
                 if (MapY >= 1)
                 {
-                    MapY = MapY -1;
+                    MapY = MapY - 1;
                     MapShift();
                     Py = Game_Pnl.Bottom - 75;
                     Ymovement += 5;
                 }
             }
-
+            //changing screens
             if (Player.IntersectsWith(BoundB))
             {
                 if (MapY <= 3)
-                {                    
+                {
                     MapY = MapY + 1;
                     MapShift();
                     Py = Game_Pnl.Top + 1;
@@ -306,7 +308,8 @@ namespace Attempt_1_at_using_pannel
             {
                 Ymovement -= 5;
             }
-            if(PlayerCenter.IntersectsWith(Escape))
+            //Level check
+            if (PlayerCenter.IntersectsWith(Escape))
             {
                 Level++;
                 if (Level == 2)
@@ -317,20 +320,28 @@ namespace Attempt_1_at_using_pannel
                 {
                     PlayerMap = Level3;
                 }
+                if (Level == 4)
+                {
+                    MessageBox.Show("You escaped the cave! Score:" + (int)(Fuel * 1000) + "Points");
+                    this.Close();
+                }
                 MapX = 0;
                 MapY = 0;
                 Fuel += 0.1;
                 MapShift();
             }
-            Px = Px-Xmovement;
-            Py = Py-Ymovement;
+            Px = Px - Xmovement;
+            Py = Py - Ymovement;
             Game_Pnl.Invalidate();
         }
+
         private void MapShift()
         {
+            //debug info
             Debug.WriteLine(MapY, MapX + "");
+            // setting up the rectangles to be loaded
             Escape = Rectangle.Empty;
-            for (int O = 0; O<RecColour; O++)
+            for (int O = 0; O < RecColour; O++)
             {
                 Object[O] = Rectangle.Empty;
                 UpS[O] = Rectangle.Empty;
@@ -338,6 +349,7 @@ namespace Attempt_1_at_using_pannel
                 RightS[O] = Rectangle.Empty;
                 LeftS[O] = Rectangle.Empty;
             }
+            //Each number is a different screen type that the game can load
             //Left exit/enterence X4
             if (PlayerMap[MapY, MapX] == 1)
             { //X,Y,Width,height
@@ -711,289 +723,7 @@ namespace Attempt_1_at_using_pannel
                 DownS[O] = new Rectangle(Object[O].Left, Object[O].Bottom - 5, Object[O].Width, 5);
             }
         }
-        
-        // Random level generation
-        // this didnt end up working :(
-        //
-        //public void GenLvl()
-      // {
-      //     Random R = new System.Random();
-      //     PathX = 0;
-      //     PathY = 0;
-      //     OriginX = PathX;
-      //     OriginY = PathY;
-      //     MapX = PathX;
-      //     MapY = PathY;
-      //     MapShift();
-      //     label1.Text = MapX +","+ MapY;
-      //     PathLength = R.Next(7,9);
-      //     CurrentLength = 0;
-      //     Yarrmin = 0;
-      //     Yarrmax = 4;
-      //     Xarrmin = 0;
-      //     CharacterPos = 0;
-      //     Down = false;
-      //     Up = false;
-      //     Left = false;
-      //     Right = false;
-      //     Xarrmax = 4;
-      //     CorrectPath[PathY, PathX] = 1;
-      //     while (CurrentLength <= PathLength)
-      //     {
-      //         //1 means up PathY--
-      //         //2 means right PathX++
-      //         //3 means down PathY++
-      //         //4 means left PathX--
-      //      Nextdir = R.Next(1, 5);
-      //         if (Nextdir == 1)
-      //         {
-      //             PathY--;
-      //             if (PathY < Yarrmin || CorrectPath[PathY, PathX] == 1)
-      //             {
-      //                 PathY++;
-      //             }      
-      //             if (CorrectPath[PathY, PathX] == 0)
-      //             {
-      //                 PathRepeat = PathRepeat + "U";
-      //             }
-      //         }
-      //         if (Nextdir == 2)
-      //          {
-      //              PathX++;
-      //              if (PathX > Xarrmax || CorrectPath[PathY, PathX] == 1)
-      //              {
-      //                  PathX--;
-      //              }
-      //              if (CorrectPath[PathY, PathX] == 0)
-      //              {
-      //                  PathRepeat = PathRepeat + "R";
-      //              }
-      //          }
-      ////         if (Nextdir == 3)
-      //          {
-      //              PathY++;
-      //              if (PathY > Yarrmax || CorrectPath[PathY, PathX] == 1)
-      //              {
-      //                  PathY--;
-      //              }
-      //              if (CorrectPath[PathY, PathX] == 0)
-      //              {
-      //                  PathRepeat = PathRepeat + "D";
-      //              }
-      //          }
-      ////         if (Nextdir == 4)
-      //          {
-      //              PathX--;                  
-      //              if (PathX < Xarrmin || CorrectPath[PathY, PathX] == 1)
-      //              {
-      //                  PathX++;
-      //              }
-      //              else if (CorrectPath[PathY, PathX] == 0)
-      //              {
-      //                  PathRepeat = PathRepeat + "L";
-      //              }
-      //          }
-      //         if (CorrectPath[PathY, PathX] == 0)
-      //         {
-      //             CorrectPath[PathY, PathX] = 1;
-      //             CurrentLength++;
-      //         }
-      //         if (CurrentLength == PathLength)
-      //         {
-      //             PathX = OriginX;
-      //             PathY = OriginY;
-      //             while (CharacterPos<PathLength -1)
-      //             {
-      //                 try
-      //                 {
-      //                     if (CorrectPath[PathY + 1, PathX] == 1)
-      //                     {
-      //                         Down = true;
-      //                     }
-      //                 }
-      //                 catch (Exception)
-      //                 {
-      //                     Down = false;
-      //                 }
-      //                 try
-      //                 {
-      //                     if (CorrectPath[PathY - 1, PathX] == 1)
-      //                     {
-      //                         Up = true;
-      //                     }
-      //                 }
-      //                 catch (Exception)
-      //                 {
-      //                     Up = false;
-      //                 }
-      //                 try
-      //                 {
-      //                     if (CorrectPath[PathY, PathX + 1] == 1)
-      //                     {
-      //                         Right = true;
-      //                     }
-      //                 }
-      //                 catch (Exception)
-      //                 {
-      //                     Right = false;
-      //                 }
-      //                 try
-      //                 {
-      //                     if (CorrectPath[PathY, PathX - 1] == 1)
-      //                     {
-      //                         Left = true;
-      //                     }
-      //                 }
-      //                 catch (Exception)
-      //                 {
-      //                     Left = false;
-      //                 }
-      //
-      //                 //RANDOM GENERATION CHECK FOR PICKING MAP TITLES
-      //                 //TOTAL MAP TILES IF CHECKING FOR EACH POSSIBLE COMBINATION: 29
-      //                 //SINGLE DIRECTION CHECK
-      //                 if (Left == true && Right == false && Up == false && Down == false)//Map tile 1-4 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(1, 5);
-      //                 }
-      //
-      //                 if (Right == true && Left == false && Up == false && Down == false)//Map tile 5-8 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(5, 9);
-      //                 }
-      //
-      //                 if (Down == true && Right == false && Up == false && Left == false)//Map tile 9-10 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(11, 13);
-      //                 }
-      //
-      //                 if (Up == true && Right == false && Left == false && Down == false)//Map tile 11-12 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(13, 15);
-      //                 }
-      //
-      //                 //DUAL DIRECTION CHECK
-      //                 if (Left == true && Right == true && Up == false && Down == false)//Map tile  13-14 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(23, 24);
-      //                 }
-      //
-      //                 if (Left == true && Up == true && Up == false && Down == false)//Map tile 15-16 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(13, 14);
-      //                 }
-      //
-      //                 if (Left == true && Down == true && Up == false && Right == false)//Map tile 17-18 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(15, 16);
-      //                 }
-      //
-      //                 if (Right == true && Up == true && Left == false && Down == false)//Map tile 19-20 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(17, 18);
-      //                 }
-      //
-      //                 if (Right == true && Down == true && Up == false && Left == false)//Map tile 21-22 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(19, 20);
-      //                 }
-      //
-      //                 if (Up == true && Down == true && Left == false && Right == false)//Map tile 23-24 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = R.Next(21, 22);
-      //                 }
-      //                 //TRIPLE DIRECTION CHECK
-      //                 if (Left == true && Right == true && Up == true && Down == false)//Map tile 25 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = 25;
-      //                 }
-      //
-      //                 if (Left == true && Right == true && Down == true && Up == false)//Map tile 26 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = 26;
-      //                 }
-      //
-      //                 if (Left == true && Down == true && Up == true && Right == false)//Map tile 27 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = 27;
-      //                 }
-      //
-      //                 if (Right == true && Down == true && Up == true && Left == false)//Map tile 28 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = 28;
-      //                 }
-      //
-      //                 //QUAD DIRECTION CHECK
-      //                 if (Left == true && Right == true && Up == true && Down == true)//Map tile 29 done
-      //                 {
-      //                     PlayerMap[PathY, PathX] = 29;
-      //                 }
-      //                 //U means up PathY--
-      //                 //R means right PathX++
-      //                 //D means down PathY++
-      //                 //L means left PathX--
-      //                 if (PathRepeat.Substring(CharacterPos, 1) == "L")
-      //                 {
-      //                     if (CharacterPos < PathLength - 2)
-      //                     {
-      //                         PathX--;
-      //                     }
-      //                     Debug.WriteLine(PathRepeat.Substring(CharacterPos, 1));
-      //                     Debug.WriteLine(PathY, PathX + "");
-      //                 }
-      //                 if (PathRepeat.Substring(CharacterPos, 1) == "D")
-      //                 {
-      //                     if (CharacterPos < PathLength - 2)
-      //                     {
-      //                         PathY++;
-      //                     }
-      //                     Debug.WriteLine(PathRepeat.Substring(CharacterPos, 1));
-      //                     Debug.WriteLine(PathY, PathX + "");
-      //                 }
-      //                 if (PathRepeat.Substring(CharacterPos, 1) == "R")
-      //                 {
-      //                     if (CharacterPos < PathLength - 2)
-      //                     {
-      //                         PathX++;
-      //                     }
-      //                     Debug.WriteLine(PathRepeat.Substring(CharacterPos, 1));
-      //                     Debug.WriteLine(PathY, PathX + "");
-      //                 }
-      //                 if (PathRepeat.Substring(CharacterPos, 1) == "U")
-      //                 {
-      //                     if (CharacterPos < PathLength - 2)
-      //                     {
-      //                         PathY--;
-      //                     }
-      //                     Debug.WriteLine(PathRepeat.Substring(CharacterPos, 1));
-      //                     Debug.WriteLine(PathY,PathX +"");
-      //                 }
-      //                 Down = false;
-      //                 Up = false;
-      //                 Left = false;
-      //                 Right = false;
-      //                 CharacterPos++;
-      //             }
-      //         }
-      //          //write and write line dont work for some reason...   so debug is used here instead          
-      //          Debug.AutoFlush = true;
-      //          Debug.Indent();
-      //          Debug.WriteLine(PathRepeat);
-      //          //Debug.WriteLine(CurrentLength +","+PathLength + PathRepeat );
-      //          //for (int i = 0; i < Xarrmax; i++)
-      //          //{
-      //          //    for(int o = 0; o < Yarrmax; o++)
-      //          //    {
-      //          //        Debug.WriteLine(CorrectPath[o, i]);
-      //          //    }
-      //          //}
-      //          Debug.Unindent();
-      //      }
-      //  }
-        //End of broken level generation code
-        //End of broken level generation code
-        //End of broken level generation code
-        // Welcome back to the normal working code :)
+
         private void Torch_Tmr_Tick(object sender, EventArgs e)
         {
 
@@ -1001,7 +731,7 @@ namespace Attempt_1_at_using_pannel
             if (Fuel <= 0)
             {
                 Torch_Tmr.Enabled = false;
-                MessageBox.Show("Your last embers of light flicker out and you become lost in the darkness. Game Over, you made it to level " +Level+"!");
+                MessageBox.Show("Your last embers of light flicker out and you become lost in the darkness. Game Over, you made it to level " + Level + "!");
                 this.Close();
             }
             //This checks that the fuel is between 0 and 1 and if it is not fuel is set to 0
@@ -1021,9 +751,9 @@ namespace Attempt_1_at_using_pannel
                 {
                     Fuel -= 0.04;
                 }
-                Xshift = (int)((1-Fuel)*100 + 2);
-            } 
-            else if (Fuel>1)
+                Xshift = (int)((1 - Fuel) * 100 + 2);
+            }
+            else if (Fuel > 1)
             {
                 Fuel = 1;
             }
@@ -1032,33 +762,33 @@ namespace Attempt_1_at_using_pannel
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             //key dectection when pressed down
-            if (e.KeyData == Keys.Left) 
+            if (e.KeyData == Keys.Left)
             {
-                left = true; 
+                left = true;
             }
-            if (e.KeyData == Keys.Right) 
-            { 
-                right = true; 
+            if (e.KeyData == Keys.Right)
+            {
+                right = true;
             }
-            if (e.KeyData == Keys.Up) 
-            { 
-                up = true; 
+            if (e.KeyData == Keys.Up)
+            {
+                up = true;
             }
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             //checking when a key is no longer being pressed
-            if (e.KeyData == Keys.Left) 
-            { 
-                left = false; 
-            }
-            if (e.KeyData == Keys.Right) 
+            if (e.KeyData == Keys.Left)
             {
-                right = false; 
+                left = false;
             }
-            if (e.KeyData == Keys.Up) 
-            { 
-                up = false; 
+            if (e.KeyData == Keys.Right)
+            {
+                right = false;
+            }
+            if (e.KeyData == Keys.Up)
+            {
+                up = false;
             }
             if (e.KeyData == Keys.Escape)
             {
@@ -1077,22 +807,22 @@ namespace Attempt_1_at_using_pannel
             g = e.Graphics;
             //use the FillRectangle method to fill in the objects so the player can see where the platforms are
             e.Graphics.FillRectangle(Brushes.Black, Player);
-            for( int i = 1; i<RecColour; i++)
+            for (int i = 1; i < RecColour; i++)
             {
                 e.Graphics.FillRectangle(Brushes.Black, Object[i]);
-            }          
+            }
             var rgn = new Region(new Rectangle(0, 0, 1000, 1000));
             var path = new GraphicsPath();
-            if (Fuel <= 1 & Fuel >=0.6)
-           { 
+            if (Fuel <= 1 & Fuel >= 0.6)
+            {
                 path.AddEllipse(Px - 120 + Xshift, Py - 75, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
             }
-           else if (Fuel <= 0.6 & Fuel >= 0.4)
+            else if (Fuel <= 0.6 & Fuel >= 0.4)
             {
                 path.AddEllipse(Px - 120 + Xshift, Py - 50, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
 
             }
-           else if (Fuel <= 0.4 & Fuel >= 0.01)
+            else if (Fuel <= 0.4 & Fuel >= 0.01)
             {
                 path.AddEllipse(Px - 110 + Xshift, Py - 30, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
             }
