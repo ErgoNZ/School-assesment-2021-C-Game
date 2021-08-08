@@ -20,7 +20,7 @@ namespace Attempt_1_at_using_pannel
         string line;
         int Py, Px, LightArea = 250, LightBarLngth, Xmovement, Ymovement, Xshift, MapX, MapY, RecColour, Difficulty, Level;
         double Fuel = 1.0;
-        bool left, right, up, jump;
+        bool left, right, up, jump, start;
         int[,] Var = new int[10,2]
         {
             {0,0},//Px
@@ -53,11 +53,11 @@ namespace Attempt_1_at_using_pannel
         };
         int[,] Level2 = new int[5, 5]
         {
-            {5,30,1,0,0},
-            {0,9,0,0,0},
-            {0,0,0,0,0},
-            {0,0,0,0,0},
-            {0,0,0,0,0}
+            {6,26,1,0,0},
+            {7,29,3,0,0},
+            {0,22,0,0,0},
+            {0,30,0,0,0},
+            {0,10,0,0,0}
         };
         int[,] Level3 = new int[5, 5]
         {
@@ -91,6 +91,7 @@ namespace Attempt_1_at_using_pannel
             Py = 120;
             Px = 415;
             PlayerMap = Level1;
+            start = false;
             Fuel_Lbl.Hide();
             //GenLvl(); this doesnt work :(
             MapShift();
@@ -195,6 +196,8 @@ namespace Attempt_1_at_using_pannel
             Extreme_Btn.Enabled = false;
             PlayerName_TxtBox.Enabled = false;
             Diff_Lbl.Visible = false;
+            start = true;
+            Title_Lbl.Visible = false;
             Fuel_Lbl.Show();
         }
         private void Framerate_Tick(object sender, EventArgs e)
@@ -309,17 +312,15 @@ namespace Attempt_1_at_using_pannel
                 if (Level == 2)
                 {
                     PlayerMap = Level2;
-                    MapX = 0;
-                    MapY = 0;
-                    MapShift();
                 }
                 if (Level == 3)
                 {
                     PlayerMap = Level3;
-                    MapX = 0;
-                    MapY = 0;
-                    MapShift();
                 }
+                MapX = 0;
+                MapY = 0;
+                Fuel += 0.1;
+                MapShift();
             }
             Px = Px-Xmovement;
             Py = Py-Ymovement;
@@ -996,10 +997,17 @@ namespace Attempt_1_at_using_pannel
         private void Torch_Tmr_Tick(object sender, EventArgs e)
         {
 
+            //Checks if the player has no more fuel and will trigger game over and shut the program down
+            if (Fuel <= 0)
+            {
+                Torch_Tmr.Enabled = false;
+                MessageBox.Show("Your last embers of light flicker out and you become lost in the darkness. Game Over, you made it to level " +Level+"!");
+                this.Close();
+            }
             //This checks that the fuel is between 0 and 1 and if it is not fuel is set to 0
             //This also changes the shift of the vision circle by running a calulation based of the fuel value
             // This is also based off difficulty level
-            if(Fuel >= 0 & Fuel <= 1)
+            if (Fuel >= 0.01 & Fuel <= 1)
             {
                 if (Difficulty == 1)
                 {
@@ -1015,11 +1023,12 @@ namespace Attempt_1_at_using_pannel
                 }
                 Xshift = (int)((1-Fuel)*100 + 2);
             } 
-            else
+            else if (Fuel>1)
             {
-                Fuel = 0;
+                Fuel = 1;
             }
         }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             //key dectection when pressed down
@@ -1087,7 +1096,10 @@ namespace Attempt_1_at_using_pannel
             {
                 path.AddEllipse(Px - 110 + Xshift, Py - 30, (int)(LightArea * (Fuel + 0.2)), (int)(LightArea * (Fuel + 0.2)));
             }
-            rgn.Exclude(path);
+            if (start == true)
+            {
+                rgn.Exclude(path);
+            }
             e.Graphics.FillRegion(Brushes.Black, rgn);
             e.Graphics.FillRectangle(Brushes.OrangeRed, LightBar);
             e.Graphics.FillRectangle(Brushes.White, Escape);

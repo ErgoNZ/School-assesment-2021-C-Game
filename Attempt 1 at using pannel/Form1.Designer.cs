@@ -43,12 +43,14 @@ namespace Attempt_1_at_using_pannel
             this.Load_Btn = new System.Windows.Forms.Button();
             this.Framerate = new System.Windows.Forms.Timer(this.components);
             this.Torch_Tmr = new System.Windows.Forms.Timer(this.components);
+            this.Title_Lbl = new System.Windows.Forms.Label();
             this.Game_Pnl.SuspendLayout();
             this.SuspendLayout();
             // 
             // Game_Pnl
             // 
             this.Game_Pnl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.Game_Pnl.Controls.Add(this.Title_Lbl);
             this.Game_Pnl.Controls.Add(this.Diff_Lbl);
             this.Game_Pnl.Controls.Add(this.Extreme_Btn);
             this.Game_Pnl.Controls.Add(this.Hard_Btn);
@@ -69,13 +71,14 @@ namespace Attempt_1_at_using_pannel
             // Diff_Lbl
             // 
             this.Diff_Lbl.AutoSize = true;
+            this.Diff_Lbl.BackColor = System.Drawing.Color.Black;
             this.Diff_Lbl.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Diff_Lbl.ForeColor = System.Drawing.Color.Red;
             this.Diff_Lbl.Location = new System.Drawing.Point(336, 370);
             this.Diff_Lbl.Name = "Diff_Lbl";
-            this.Diff_Lbl.Size = new System.Drawing.Size(115, 32);
+            this.Diff_Lbl.Size = new System.Drawing.Size(201, 32);
             this.Diff_Lbl.TabIndex = 10;
-            this.Diff_Lbl.Text = "Difficulty:";
+            this.Diff_Lbl.Text = "Difficulty: Normal";
             // 
             // Extreme_Btn
             // 
@@ -181,6 +184,18 @@ namespace Attempt_1_at_using_pannel
             this.Torch_Tmr.Interval = 1000;
             this.Torch_Tmr.Tick += new System.EventHandler(this.Torch_Tmr_Tick);
             // 
+            // Title_Lbl
+            // 
+            this.Title_Lbl.AutoSize = true;
+            this.Title_Lbl.BackColor = System.Drawing.Color.Black;
+            this.Title_Lbl.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Title_Lbl.ForeColor = System.Drawing.Color.OrangeRed;
+            this.Title_Lbl.Location = new System.Drawing.Point(356, 34);
+            this.Title_Lbl.Name = "Title_Lbl";
+            this.Title_Lbl.Size = new System.Drawing.Size(194, 45);
+            this.Title_Lbl.TabIndex = 11;
+            this.Title_Lbl.Text = "Cave Escape";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -214,6 +229,7 @@ namespace Attempt_1_at_using_pannel
         private System.Windows.Forms.Button Hard_Btn;
         private System.Windows.Forms.Button Normal_Btn;
         private System.Windows.Forms.Label Diff_Lbl;
+        private System.Windows.Forms.Label Title_Lbl;
     }
 }
 
